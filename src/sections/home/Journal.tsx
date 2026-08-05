@@ -25,7 +25,7 @@ export function Journal() {
                   id={HOME_IMAGES.journal[i] ?? p.image}
                   alt={p.title}
                   ratio="16 / 11"
-                  depth={0.09 + (i % 3) * 0.04}
+                  depth={0.08 + (i % 3) * 0.03}
                   className="post__media"
                 />
                 <div className="post__meta">

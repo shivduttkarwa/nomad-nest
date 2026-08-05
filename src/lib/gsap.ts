@@ -13,6 +13,7 @@ export const EASE_SOFT = 'power3.out'
 
 export const SCRUB = 1.1
 export const SCRUB_TIGHT = 0.6
+export const SMOOTH_ABOVE = 0.15
 
 export const THROUGH = { start: 'top bottom', end: 'bottom top' } as const
 

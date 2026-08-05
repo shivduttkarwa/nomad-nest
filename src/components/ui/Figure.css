@@ -13,7 +13,6 @@
   opacity: 0;
   transform-origin: center;
   transition: opacity 1s var(--ease-out);
-  will-change: transform;
 }
 
 /* Oversize the image inside its frame so the drift never exposes an edge. */

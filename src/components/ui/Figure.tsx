@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 
 import { useReducedMotion } from '@/hooks'
-import { SCRUB, THROUGH, gsap } from '@/lib/gsap'
+import { SCRUB, SMOOTH_ABOVE, THROUGH, gsap } from '@/lib/gsap'
 import { cx, img } from '@/lib/utils'
 import './Figure.css'
 
@@ -43,18 +43,19 @@ export function Figure({
     if (!drifts && !scaleIn) return
 
     const ctx = gsap.context(() => {
-      const trigger = { trigger: scope, ...THROUGH, scrub: SCRUB, invalidateOnRefresh: true }
+      const scrub = depth >= SMOOTH_ABOVE ? SCRUB : true
+      const trigger = { trigger: scope, ...THROUGH, scrub, invalidateOnRefresh: true }
       const travel = () => scope.offsetHeight * depth
 
       if (drifts) {
         gsap.fromTo(
           el,
           { y: () => -travel() },
-          { y: () => travel(), ease: 'none', scrollTrigger: trigger },
+          { y: () => travel(), ease: 'none', force3D: true, scrollTrigger: trigger },
         )
       }
       if (scaleIn) {
-        gsap.fromTo(el, { scale: 1.16 }, { scale: 1, ease: 'none', scrollTrigger: trigger })
+        gsap.fromTo(el, { scale: 1.16 }, { scale: 1, ease: 'none', force3D: true, scrollTrigger: trigger })
       }
     }, scope)
 
