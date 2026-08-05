@@ -1,11 +1,14 @@
 .dnote__inner {
-  max-width: 30ch;
-  margin-left: auto;
   text-align: right;
   padding-bottom: clamp(3rem, 6vw, 6rem);
 }
 .dnote__inner .eyebrow {
   margin-bottom: 1.5rem;
+}
+.dnote__inner p {
+  max-width: min(14em, 100%);
+  margin-left: auto;
+  text-wrap: balance;
 }
 .dnote__inner em {
   color: var(--accent);
@@ -13,7 +16,9 @@
 
 @media (max-width: 700px) {
   .dnote__inner {
-    margin-left: 0;
     text-align: left;
+  }
+  .dnote__inner p {
+    margin-left: 0;
   }
 }

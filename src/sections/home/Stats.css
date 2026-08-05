@@ -13,9 +13,16 @@
 }
 .stats__value {
   display: block;
+  overflow: hidden;
   font-size: clamp(3rem, 6.5vw, 6rem);
   line-height: 0.94;
   letter-spacing: -0.035em;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.stats__num {
+  display: block;
+  will-change: transform;
 }
 .stats__label {
   display: block;

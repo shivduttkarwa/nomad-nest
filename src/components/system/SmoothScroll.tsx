@@ -36,6 +36,7 @@ export function useLenisLock(locked: boolean) {
     return () => {
       document.body.style.overflow = prevOverflow
       lenis?.start()
+      ScrollTrigger.refresh()
     }
   }, [locked, lenis])
 }
@@ -64,11 +65,17 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     instance.on('scroll', sync)
     gsap.ticker.add(tick)
     gsap.ticker.lagSmoothing(0)
-    ScrollTrigger.refresh()
+
+    const remeasure = () => ScrollTrigger.refresh()
+
+    remeasure()
+    window.addEventListener('load', remeasure)
+    document.fonts?.ready.then(remeasure)
 
     return () => {
       instance.off('scroll', sync)
       gsap.ticker.remove(tick)
+      window.removeEventListener('load', remeasure)
       instance.destroy()
       setLenis(null)
     }
