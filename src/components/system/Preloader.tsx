@@ -1,15 +1,25 @@
-import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion, useMotionValue, useTransform } from 'framer-motion'
 import { pad } from '@/lib/utils'
 import { useReducedMotion } from '@/hooks'
 import './Preloader.css'
 
-const WORDS = ['Melbourne', 'Lisbon', 'Kyoto', 'Nomad & Nest']
+const FLIGHT_MS = 3800
+const HOLD_MS = 600
+const WEAVE = Math.PI * 3.5
+const SWING = 20
+const BANK = 17
 
 export function Preloader({ onDone }: { onDone: () => void }) {
   const reduced = useReducedMotion()
   const [count, setCount] = useState(0)
   const [open, setOpen] = useState(true)
+  const shown = useRef(0)
+
+  const progress = useMotionValue(0)
+  const x = useTransform(progress, (p) => `${-30 + 152 * p}vw`)
+  const y = useTransform(progress, (p) => `${100 - 118 * p - SWING * Math.sin(WEAVE * p)}vh`)
+  const rotate = useTransform(progress, (p) => -BANK * Math.cos(WEAVE * p))
 
   useEffect(() => {
     if (reduced) {
@@ -18,28 +28,37 @@ export function Preloader({ onDone }: { onDone: () => void }) {
       return
     }
 
-    let value = 0
+    let raf = 0
     let timer = 0
+    const start = performance.now()
 
-    const step = () => {
-      const remaining = 100 - value
-      value = Math.min(100, value + Math.max(1, Math.round(remaining * 0.12)))
-      setCount(value)
-      if (value < 100) {
-        timer = window.setTimeout(step, 28 + Math.random() * 42)
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / FLIGHT_MS)
+      progress.set(p)
+
+      const next = Math.round(p * 100)
+      if (next !== shown.current) {
+        shown.current = next
+        setCount(next)
+      }
+
+      if (p < 1) {
+        raf = requestAnimationFrame(tick)
       } else {
         timer = window.setTimeout(() => {
           setOpen(false)
           onDone()
-        }, 420)
+        }, HOLD_MS)
       }
     }
 
-    timer = window.setTimeout(step, 220)
-    return () => window.clearTimeout(timer)
-  }, [reduced, onDone])
+    raf = requestAnimationFrame(tick)
 
-  const wordIndex = Math.min(WORDS.length - 1, Math.floor((count / 100) * WORDS.length))
+    return () => {
+      cancelAnimationFrame(raf)
+      window.clearTimeout(timer)
+    }
+  }, [reduced, onDone, progress])
 
   return (
     <AnimatePresence>
@@ -49,29 +68,19 @@ export function Preloader({ onDone }: { onDone: () => void }) {
           exit={{ y: '-100%' }}
           transition={{ duration: 1.05, ease: [0.76, 0, 0.24, 1] }}
         >
+          <motion.div className="preloader__plane" style={{ x, y, rotate }} aria-hidden="true">
+            <svg viewBox="0 0 100 100" fill="none">
+              <path d="M97 5 43 59 57 95Z" className="preloader__wing" />
+              <path d="M97 5 3 45 43 59 57 95Z" className="preloader__body" />
+              <path d="M97 5 43 59" className="preloader__crease" />
+            </svg>
+          </motion.div>
+
           <div className="preloader__inner">
-            <div className="preloader__word">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={wordIndex}
-                  initial={{ y: '110%' }}
-                  animate={{ y: '0%' }}
-                  exit={{ y: '-110%' }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  {WORDS[wordIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </div>
-
-            <div className="preloader__meta">
-              <span className="mono">Establishing route</span>
-              <span className="preloader__count">{pad(count, 3)}</span>
-            </div>
-
-            <div className="preloader__bar">
-              <motion.i style={{ scaleX: count / 100 }} transition={{ ease: 'linear' }} />
-            </div>
+            <span className="preloader__name display">
+              Nomad <em>&amp;</em> Nest
+            </span>
+            <span className="preloader__count">{pad(count, 3)}</span>
           </div>
         </motion.div>
       )}
