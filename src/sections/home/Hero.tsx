@@ -11,7 +11,7 @@ import './Hero.css'
 
 const SLIDE_MS = 6200
 const WIPE_S = 1.5
-const INTRO = 1.1
+const INTRO = 0.7
 const CONTENT = INTRO + 0.95
 
 const SLIDES = [

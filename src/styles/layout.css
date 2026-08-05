@@ -17,12 +17,17 @@
 }
 
 .section {
-  padding-block: var(--section);
+  padding-block: calc(var(--section) / 2);
   position: relative;
 }
 
 .section--tight {
-  padding-block: clamp(3.5rem, 7vw, 7rem);
+  padding-block: calc(var(--section-tight) / 2);
+}
+
+.section.on-dark,
+.section--tight.on-dark {
+  padding-block: var(--section);
 }
 
 .rule {

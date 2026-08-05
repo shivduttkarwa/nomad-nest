@@ -3,15 +3,17 @@ import { Link } from 'react-router-dom'
 
 import { ArrowLink, Lines, SectionHead } from '@/components/ui'
 import { destinations, featuredDestinations } from '@/data/destinations'
-import { useIsDesktop } from '@/hooks'
-import { gsap } from '@/lib/gsap'
+import { useIsDesktop, useReducedMotion } from '@/hooks'
+import { EASE_OUT, gsap } from '@/lib/gsap'
 import { cx, img, money, pad } from '@/lib/utils'
 import { HOME_IMAGES } from './images'
 import './DestinationIndex.css'
 
 export function DestinationIndex() {
   const isDesktop = useIsDesktop()
+  const reduced = useReducedMotion()
   const wrapRef = useRef<HTMLDivElement>(null)
+  const listRef = useRef<HTMLUListElement>(null)
   const previewRef = useRef<HTMLDivElement>(null)
   const setX = useRef<((v: number) => void) | null>(null)
   const setY = useRef<((v: number) => void) | null>(null)
@@ -19,6 +21,28 @@ export function DestinationIndex() {
   const [active, setActive] = useState<number | null>(null)
 
   const rows = featuredDestinations.slice(0, 5)
+
+  useLayoutEffect(() => {
+    const list = listRef.current
+    if (!list || reduced) return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        list.children,
+        { opacity: 0, y: 28 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: EASE_OUT,
+          stagger: 0.08,
+          scrollTrigger: { trigger: list, start: 'top 82%', once: true },
+        },
+      )
+    }, list)
+
+    return () => ctx.revert()
+  }, [reduced])
 
   useLayoutEffect(() => {
     const el = previewRef.current
@@ -63,7 +87,7 @@ export function DestinationIndex() {
       </div>
 
       <div className="dindex__wrap shell" ref={wrapRef} onPointerMove={onMove} onPointerLeave={() => setActive(null)}>
-        <ul className="dindex__list">
+        <ul className="dindex__list" ref={listRef}>
           {rows.map((d, i) => (
             <li key={d.slug}>
               <Link
