@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { useMotionValueEvent, useScroll } from 'framer-motion'
 import { nav } from '@/data/site'
 import { cx } from '@/lib/utils'
 import { Btn } from '@/components/ui/Btn'
@@ -9,7 +8,6 @@ import { Menu } from './Menu'
 import './Header.css'
 
 export function Header() {
-  const { scrollY } = useScroll()
   const [solid, setSolid] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -17,11 +15,20 @@ export function Header() {
 
   const overDark = pathname === '/' || !nav.some((n) => n.to === pathname)
 
-  useMotionValueEvent(scrollY, 'change', (y) => {
-    const prev = scrollY.getPrevious() ?? 0
-    setSolid(y > 64)
-    setHidden(y > 420 && y > prev && !menuOpen)
-  })
+  useEffect(() => {
+    let prev = window.scrollY
+
+    const onScroll = () => {
+      const y = window.scrollY
+      setSolid(y > 64)
+      setHidden(y > 420 && y > prev && !menuOpen)
+      prev = y
+    }
+
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [menuOpen])
 
   useEffect(() => {
     setMenuOpen(false)

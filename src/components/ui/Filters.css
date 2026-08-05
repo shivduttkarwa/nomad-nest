@@ -1,15 +1,26 @@
 .filters {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
 }
+.filters__pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--ink);
+  border-radius: var(--radius-pill);
+  z-index: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
 .filters__btn {
   position: relative;
+  z-index: 1;
   padding: 0.6em 1.15em;
   border-radius: var(--radius-pill);
   font-size: var(--fs-sm);
   color: var(--text-mute);
-  isolation: isolate;
   transition: color 0.4s var(--ease-out);
   white-space: nowrap;
 }
@@ -18,13 +29,6 @@
 }
 .filters__btn.is-active {
   color: var(--paper);
-}
-.filters__pill {
-  position: absolute;
-  inset: 0;
-  background: var(--ink);
-  border-radius: var(--radius-pill);
-  z-index: -1;
 }
 .on-dark .filters__btn.is-active {
   color: var(--ink);

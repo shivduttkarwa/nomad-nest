@@ -1,6 +1,8 @@
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useRef, type ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
-import { motion, useScroll, useSpring } from 'framer-motion'
+
+import { useReducedMotion } from '@/hooks'
+import { EASE_IN_OUT, EASE_OUT, ScrollTrigger, gsap } from '@/lib/gsap'
 import { useLenisInstance } from './SmoothScroll'
 import './Transitions.css'
 
@@ -8,43 +10,75 @@ const PANELS = 5
 
 export function RouteCurtain() {
   const { pathname } = useLocation()
+  const ref = useRef<HTMLDivElement>(null)
+  const reduced = useReducedMotion()
+
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el || reduced) return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        '.curtain__panel',
+        { scaleY: 1 },
+        { scaleY: 0, duration: 0.9, ease: EASE_IN_OUT, stagger: 0.055 },
+      )
+    }, el)
+
+    return () => ctx.revert()
+  }, [pathname, reduced])
 
   return (
-    <div className="curtain" aria-hidden="true" key={pathname}>
+    <div ref={ref} className="curtain" aria-hidden="true">
       {Array.from({ length: PANELS }, (_, i) => (
-        <motion.span
-          key={i}
-          className="curtain__panel"
-          initial={{ scaleY: 1 }}
-          animate={{ scaleY: 0 }}
-          transition={{
-            duration: 0.9,
-            ease: [0.76, 0, 0.24, 1],
-            delay: i * 0.055,
-          }}
-        />
+        <span key={i} className="curtain__panel" />
       ))}
     </div>
   )
 }
 
 export function PageShell({ children }: { children: ReactNode }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-    >
-      {children}
-    </motion.div>
-  )
+  const ref = useRef<HTMLDivElement>(null)
+  const reduced = useReducedMotion()
+
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el || reduced) return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.45, ease: EASE_OUT, delay: 0.15 })
+    }, el)
+
+    return () => ctx.revert()
+  }, [reduced])
+
+  return <div ref={ref}>{children}</div>
 }
 
 export function ScrollProgress() {
-  const { scrollYProgress } = useScroll()
-  const scaleX = useSpring(scrollYProgress, { stiffness: 220, damping: 40, mass: 0.4 })
-  return <motion.div className="scroll-progress" style={{ scaleX }} aria-hidden="true" />
+  const ref = useRef<HTMLDivElement>(null)
+  const reduced = useReducedMotion()
+
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el || reduced) return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el,
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          ease: 'none',
+          scrollTrigger: { start: 0, end: 'max', scrub: 0.3 },
+        },
+      )
+    }, el)
+
+    return () => ctx.revert()
+  }, [reduced])
+
+  return <div ref={ref} className="scroll-progress" aria-hidden="true" />
 }
 
 export function ScrollToTop() {
@@ -54,6 +88,7 @@ export function ScrollToTop() {
   useEffect(() => {
     if (lenis) lenis.scrollTo(0, { immediate: true })
     else window.scrollTo(0, 0)
+    ScrollTrigger.refresh()
   }, [pathname, lenis])
 
   return null

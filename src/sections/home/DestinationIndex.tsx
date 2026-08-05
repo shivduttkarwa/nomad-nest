@@ -1,10 +1,10 @@
-import { useRef, useState, type PointerEvent } from 'react'
+import { useLayoutEffect, useRef, useState, type PointerEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 
 import { ArrowLink, Lines, SectionHead } from '@/components/ui'
 import { destinations, featuredDestinations } from '@/data/destinations'
 import { useIsDesktop } from '@/hooks'
+import { gsap } from '@/lib/gsap'
 import { cx, img, money, pad } from '@/lib/utils'
 import { HOME_IMAGES } from './images'
 import './DestinationIndex.css'
@@ -12,21 +12,38 @@ import './DestinationIndex.css'
 export function DestinationIndex() {
   const isDesktop = useIsDesktop()
   const wrapRef = useRef<HTMLDivElement>(null)
+  const previewRef = useRef<HTMLDivElement>(null)
+  const setX = useRef<((v: number) => void) | null>(null)
+  const setY = useRef<((v: number) => void) | null>(null)
+  const setRotate = useRef<((v: number) => void) | null>(null)
   const [active, setActive] = useState<number | null>(null)
 
-  const mx = useMotionValue(0)
-  const my = useMotionValue(0)
-  const x = useSpring(mx, { stiffness: 260, damping: 34, mass: 0.5 })
-  const y = useSpring(my, { stiffness: 260, damping: 34, mass: 0.5 })
-  const rotate = useTransform(x, [-400, 400], [-7, 7])
-
   const rows = featuredDestinations.slice(0, 5)
+
+  useLayoutEffect(() => {
+    const el = previewRef.current
+    if (!el || !isDesktop) return
+
+    setX.current = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'power3.out' })
+    setY.current = gsap.quickTo(el, 'y', { duration: 0.5, ease: 'power3.out' })
+    setRotate.current = gsap.quickTo(el, 'rotate', { duration: 0.6, ease: 'power3.out' })
+
+    return () => {
+      setX.current = null
+      setY.current = null
+      setRotate.current = null
+      gsap.killTweensOf(el)
+    }
+  }, [isDesktop])
 
   const onMove = (e: PointerEvent<HTMLDivElement>) => {
     if (!isDesktop || !wrapRef.current) return
     const r = wrapRef.current.getBoundingClientRect()
-    mx.set(e.clientX - r.left - r.width / 2)
-    my.set(e.clientY - r.top - r.height / 2)
+    const x = e.clientX - r.left - r.width / 2
+    const y = e.clientY - r.top - r.height / 2
+    setX.current?.(x)
+    setY.current?.(y)
+    setRotate.current?.(gsap.utils.clamp(-7, 7, (x / 400) * 7))
   }
 
   return (
@@ -78,7 +95,7 @@ export function DestinationIndex() {
         </ul>
 
         {isDesktop && (
-          <motion.div className="dindex__preview" style={{ x, y, rotate }} aria-hidden="true">
+          <div className="dindex__preview" ref={previewRef} aria-hidden="true">
             {rows.map((d, i) => (
               <img
                 key={d.slug}
@@ -88,7 +105,7 @@ export function DestinationIndex() {
                 loading="lazy"
               />
             ))}
-          </motion.div>
+          </div>
         )}
       </div>
     </section>

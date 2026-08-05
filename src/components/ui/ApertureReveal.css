@@ -1,0 +1,11 @@
+.aperture-reveal {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.aperture-reveal__inner {
+  display: block;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}

@@ -1,15 +1,9 @@
-import { Fragment, useEffect, useRef, useState, type ElementType, type ReactNode } from 'react'
-import { motion, useInView, useScroll, useTransform, type MotionValue } from 'framer-motion'
-import gsap from 'gsap'
-import { SplitText } from 'gsap/SplitText'
-import { cx } from '@/lib/utils'
+import { Fragment, useLayoutEffect, useRef, useState, type ElementType, type ReactNode } from 'react'
+
 import { useReducedMotion } from '@/hooks'
+import { EASE_OUT, ScrollTrigger, SplitText, gsap, startAt } from '@/lib/gsap'
+import { cx } from '@/lib/utils'
 import './Motion.css'
-
-gsap.registerPlugin(SplitText)
-
-const EASE = [0.16, 1, 0.3, 1] as const
-const HIDDEN = 150
 
 export function Reveal({
   children,
@@ -17,7 +11,7 @@ export function Reveal({
   y = 26,
   className,
   amount = 0.25,
-  as = 'div',
+  as: Tag = 'div',
 }: {
   children: ReactNode
   delay?: number
@@ -26,15 +20,33 @@ export function Reveal({
   amount?: number
   as?: ElementType
 }) {
-  const Tag = motion[as as 'div'] ?? motion.div
+  const ref = useRef<HTMLElement>(null)
+  const reduced = useReducedMotion()
+
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el || reduced) return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el,
+        { opacity: 0, y },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.95,
+          ease: EASE_OUT,
+          delay,
+          scrollTrigger: { trigger: el, start: startAt(amount), once: true },
+        },
+      )
+    }, el)
+
+    return () => ctx.revert()
+  }, [delay, y, amount, reduced])
+
   return (
-    <Tag
-      className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount }}
-      transition={{ duration: 0.95, ease: EASE, delay }}
-    >
+    <Tag ref={ref} className={className}>
       {children}
     </Tag>
   )
@@ -56,53 +68,42 @@ export function Lines({
   as?: ElementType
 }) {
   const ref = useRef<HTMLElement>(null)
-  const split = useRef<SplitText | null>(null)
-  const done = useRef(false)
   const reduced = useReducedMotion()
-  const seen = useInView(ref, { once: true, amount: 0.35 })
-  const shouldPlay = seen && play && !reduced
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = ref.current
-    if (!el || reduced) return
+    if (!el || reduced || !play) return
 
-    const instance = SplitText.create(el, {
-      type: 'lines',
-      mask: 'lines',
-      linesClass: 'lines__line',
-      autoSplit: true,
-      onSplit: (self) => {
-        gsap.set(self.lines, { yPercent: done.current ? 0 : HIDDEN })
-      },
-    })
+    let split: SplitText | null = null
 
-    split.current = instance
-    return () => {
-      instance.revert()
-      split.current = null
-    }
-  }, [reduced])
-
-  useEffect(() => {
-    if (!shouldPlay || done.current) return
-    const instance = split.current
-    if (!instance) return
-
-    const tween = gsap.to(instance.lines, {
-      yPercent: 0,
-      duration: 1.15,
-      ease: 'expo.out',
-      stagger,
-      delay,
-      onComplete: () => {
-        done.current = true
-      },
-    })
+    const ctx = gsap.context(() => {
+      split = SplitText.create(el, {
+        type: 'lines',
+        mask: 'lines',
+        linesClass: 'lines__line',
+        autoSplit: true,
+        onSplit: (self) => {
+          return gsap.fromTo(
+            self.lines,
+            { yPercent: 150 },
+            {
+              yPercent: 0,
+              duration: 1.15,
+              ease: EASE_OUT,
+              stagger,
+              delay,
+              scrollTrigger: { trigger: el, start: startAt(0.35), once: true },
+            },
+          )
+        },
+      })
+    }, el)
 
     return () => {
-      tween.kill()
+      ctx.revert()
+      split?.revert()
     }
-  }, [shouldPlay, stagger, delay])
+  }, [delay, stagger, play, reduced])
 
   return (
     <Tag ref={ref} className={cx('lines', className)}>
@@ -116,73 +117,82 @@ export function Lines({
   )
 }
 
-function Word({
-  children,
-  range,
-  progress,
-}: {
-  children: string
-  range: [number, number]
-  progress: MotionValue<number>
-}) {
-  const opacity = useTransform(progress, range, [0.16, 1])
-  return (
-    <span className="wordreveal__word">
-      <motion.span style={{ opacity }}>{children}</motion.span>
-    </span>
-  )
-}
-
 export function WordReveal({ text, className }: { text: string; className?: string }) {
   const ref = useRef<HTMLParagraphElement>(null)
   const reduced = useReducedMotion()
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start 0.9', 'start 0.5'],
-  })
 
-  const words = text.split(' ')
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el || reduced) return
 
-  if (reduced) return <p className={cx('wordreveal', className)}>{text}</p>
+    let split: SplitText | null = null
+
+    const ctx = gsap.context(() => {
+      split = SplitText.create(el, {
+        type: 'words',
+        wordsClass: 'wordreveal__word',
+        autoSplit: true,
+        onSplit: (self) => {
+          return gsap.fromTo(
+            self.words,
+            { opacity: 0.16 },
+            {
+              opacity: 1,
+              ease: 'none',
+              stagger: 0.4,
+              scrollTrigger: {
+                trigger: el,
+                start: 'top 90%',
+                end: 'top 50%',
+                scrub: true,
+              },
+            },
+          )
+        },
+      })
+    }, el)
+
+    return () => {
+      ctx.revert()
+      split?.revert()
+    }
+  }, [text, reduced])
 
   return (
     <p ref={ref} className={cx('wordreveal', className)}>
-      {words.map((word, i) => {
-        const start = i / words.length
-        const end = start + 1 / words.length
-        return (
-          <Word key={i} range={[start, end]} progress={scrollYProgress}>
-            {word + (i < words.length - 1 ? ' ' : '')}
-          </Word>
-        )
-      })}
+      {text}
     </p>
   )
 }
 
 export function Counter({ to, suffix = '', duration = 1.9 }: { to: number; suffix?: string; duration?: number }) {
   const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, amount: 0.6 })
   const reduced = useReducedMotion()
   const [value, setValue] = useState(0)
 
-  useEffect(() => {
-    if (!inView) return
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+
     if (reduced) {
       setValue(to)
       return
     }
-    let raf = 0
-    const start = performance.now()
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / (duration * 1000))
-      const eased = 1 - Math.pow(1 - t, 4)
-      setValue(Math.round(to * eased))
-      if (t < 1) raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [inView, to, duration, reduced])
+
+    const counter = { n: 0 }
+
+    const ctx = gsap.context(() => {
+      gsap.to(counter, {
+        n: to,
+        duration,
+        ease: 'power4.out',
+        onUpdate: () => setValue(Math.round(counter.n)),
+        scrollTrigger: { trigger: el, start: startAt(0.6), once: true },
+      })
+    }, el)
+
+    return () => ctx.revert()
+  }, [to, duration, reduced])
 
   return (
     <span ref={ref} className="counter">
@@ -194,8 +204,30 @@ export function Counter({ to, suffix = '', duration = 1.9 }: { to: number; suffi
 
 export function useParallax(distance = 60) {
   const ref = useRef<HTMLDivElement>(null)
+  const targetRef = useRef<HTMLDivElement>(null)
   const reduced = useReducedMotion()
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
-  const y = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [distance, -distance])
-  return { ref, y }
+
+  useLayoutEffect(() => {
+    const scope = ref.current
+    const target = targetRef.current
+    if (!scope || !target || reduced) return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        target,
+        { y: distance },
+        {
+          y: -distance,
+          ease: 'none',
+          scrollTrigger: { trigger: scope, start: 'top bottom', end: 'bottom top', scrub: true },
+        },
+      )
+    }, scope)
+
+    return () => ctx.revert()
+  }, [distance, reduced])
+
+  return { ref, targetRef }
 }
+
+export { ScrollTrigger }

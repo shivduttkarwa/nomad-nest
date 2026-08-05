@@ -1,5 +1,7 @@
 export { Accordion, type AccordionItem } from './Accordion'
 export { ArrowLink, Btn } from './Btn'
+export { ApertureReveal } from './ApertureReveal'
+export { Collapse } from './Collapse'
 export { Cta } from './Cta'
 export { EmptyState } from './EmptyState'
 export { Figure } from './Figure'

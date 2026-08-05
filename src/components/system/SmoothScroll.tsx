@@ -1,7 +1,11 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import Lenis from 'lenis'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from '@/hooks'
 import './SmoothScroll.css'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const LenisContext = createContext<Lenis | null>(null)
 
@@ -54,15 +58,17 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
 
     setLenis(instance)
 
-    let frame = 0
-    const raf = (time: number) => {
-      instance.raf(time)
-      frame = requestAnimationFrame(raf)
-    }
-    frame = requestAnimationFrame(raf)
+    const tick = (time: number) => instance.raf(time * 1000)
+    const sync = () => ScrollTrigger.update()
+
+    instance.on('scroll', sync)
+    gsap.ticker.add(tick)
+    gsap.ticker.lagSmoothing(0)
+    ScrollTrigger.refresh()
 
     return () => {
-      cancelAnimationFrame(frame)
+      instance.off('scroll', sync)
+      gsap.ticker.remove(tick)
       instance.destroy()
       setLenis(null)
     }

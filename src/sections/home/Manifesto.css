@@ -16,6 +16,8 @@
   will-change: transform;
 }
 .manifesto__frame {
+  position: relative;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
 }
 .manifesto__caption {

@@ -1,10 +1,8 @@
-import { motion } from 'framer-motion'
-
 import { Figure, Reveal, WordReveal, useParallax } from '@/components/ui'
 import './Opening.css'
 
 export function Opening() {
-  const { ref, y } = useParallax(60)
+  const { ref, targetRef } = useParallax(60)
 
   return (
     <section className="opening section" ref={ref}>
@@ -30,10 +28,10 @@ export function Opening() {
           </Reveal>
         </div>
 
-        <motion.div className="opening__media" style={{ y }}>
+        <div className="opening__media" ref={targetRef}>
           <Figure id="1516738901171-8eb4fc13bd20" alt="A wall map stuck with coloured pins" ratio="4 / 5" />
           <span className="opening__caption mono">The pin wall — one pin per journey, since 2011</span>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

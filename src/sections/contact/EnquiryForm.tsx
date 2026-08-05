@@ -1,11 +1,10 @@
-import { useMemo, useState, type FormEvent } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { useLayoutEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 
 import { Btn } from '@/components/ui'
 import { destinations } from '@/data/destinations'
 import { PACES } from '@/data/journeys'
 import { site } from '@/data/site'
-import { EASE_OUT } from '@/lib/easing'
+import { EASE_OUT, gsap } from '@/lib/gsap'
 import { cx, money } from '@/lib/utils'
 import './EnquiryForm.css'
 
@@ -69,6 +68,33 @@ export function EnquiryForm() {
   const [touched, setTouched] = useState(false)
   const [sent, setSent] = useState(false)
 
+  const panelRef = useRef<HTMLDivElement>(null)
+  const trackRef = useRef<HTMLElement>(null)
+  const doneRef = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    if (panelRef.current) {
+      gsap.fromTo(
+        panelRef.current,
+        { opacity: 0, x: 26 },
+        { opacity: 1, x: 0, duration: 0.4, ease: EASE_OUT, overwrite: true },
+      )
+    }
+    if (trackRef.current) {
+      gsap.to(trackRef.current, {
+        scaleX: (step + 1) / STEPS.length,
+        duration: 0.7,
+        ease: EASE_OUT,
+        overwrite: true,
+      })
+    }
+  }, [step])
+
+  useLayoutEffect(() => {
+    if (!sent || !doneRef.current) return
+    gsap.fromTo(doneRef.current, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.7, ease: EASE_OUT })
+  }, [sent])
+
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) => setForm((f) => ({ ...f, [key]: value }))
 
   const togglePlace = (slug: string) =>
@@ -108,12 +134,7 @@ export function EnquiryForm() {
 
   if (sent) {
     return (
-      <motion.div
-        className="enquiry enquiry--done"
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: EASE_OUT }}
-      >
+      <div className="enquiry enquiry--done" ref={doneRef}>
         <span className="eyebrow">Received</span>
         <p className="display d3">
           Thank you, {form.name.split(' ')[0]}. We will write back <em>properly</em> — usually within one working day.
@@ -132,7 +153,7 @@ export function EnquiryForm() {
         >
           Send another enquiry
         </Btn>
-      </motion.div>
+      </div>
     )
   }
 
@@ -152,26 +173,14 @@ export function EnquiryForm() {
           </button>
         ))}
         <span className="enquiry__track" aria-hidden="true">
-          <motion.i
-            initial={{ scaleX: 1 / STEPS.length }}
-            animate={{ scaleX: (step + 1) / STEPS.length }}
-            transition={{ duration: 0.7, ease: EASE_OUT }}
-          />
+          <i ref={trackRef} />
         </span>
       </div>
 
       <p className="enquiry__hint mono">{STEPS[step].hint}</p>
 
       <div className="enquiry__stage">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={step}
-            initial={{ opacity: 0, x: 26 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -26 }}
-            transition={{ duration: 0.4, ease: EASE_OUT }}
-            className="enquiry__panel"
-          >
+        <div className="enquiry__panel" ref={panelRef}>
             {step === 0 && (
               <div className="field-grid">
                 <label className="field field--full">
@@ -387,8 +396,7 @@ export function EnquiryForm() {
                 </div>
               </div>
             )}
-          </motion.div>
-        </AnimatePresence>
+        </div>
       </div>
 
       {touched && !valid && (

@@ -1,20 +1,9 @@
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
-
-import { Figure, Reveal, WordReveal, useParallax } from '@/components/ui'
+import { ApertureReveal, Figure, Reveal, WordReveal, useParallax } from '@/components/ui'
 import { HOME_IMAGES } from './images'
 import './Manifesto.css'
 
 export function Manifesto() {
-  const { ref, y } = useParallax(70)
-  const frameRef = useRef<HTMLDivElement>(null)
-
-  const { scrollYProgress } = useScroll({
-    target: frameRef,
-    offset: ['start 0.95', 'start 0.5'],
-  })
-
-  const clipPath = useTransform(scrollYProgress, (p) => `inset(0% 0% ${(1 - p) * 100}% 0%)`)
+  const { ref, targetRef } = useParallax(70)
 
   return (
     <section className="manifesto section" ref={ref}>
@@ -24,20 +13,19 @@ export function Manifesto() {
             Who we are
           </Reveal>
 
-          <motion.div className="manifesto__figure" style={{ y }}>
-            <motion.div ref={frameRef} className="manifesto__frame" style={{ clipPath }}>
+          <div className="manifesto__figure" ref={targetRef}>
+            <ApertureReveal className="manifesto__frame">
               <Figure
                 id={HOME_IMAGES.studio}
                 alt="The Fitzroy studio — a quiet gallery-like room hung with prints"
                 ratio="3 / 4"
-                scaleIn
               />
-            </motion.div>
+            </ApertureReveal>
 
             <Reveal as="span" y={10} delay={0.35} amount={0.2} className="manifesto__caption mono">
               The Fitzroy studio, Melbourne
             </Reveal>
-          </motion.div>
+          </div>
         </div>
 
         <div className="manifesto__body">

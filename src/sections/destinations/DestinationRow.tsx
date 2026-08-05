@@ -1,20 +1,10 @@
-import { motion } from 'framer-motion'
-
 import type { Destination } from '@/data/destinations'
-import { EASE_OUT } from '@/lib/easing'
 import { img, money, pad } from '@/lib/utils'
 import './DestinationRow.css'
 
 export function DestinationRow({ d, i }: { d: Destination; i: number }) {
   return (
-    <motion.li
-      layout
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5, ease: EASE_OUT, delay: Math.min(i, 8) * 0.03 }}
-      className="drow"
-    >
+    <li className="drow">
       <a href="#" className="drow__link" data-cursor="view">
         <span className="drow__num mono">{pad(i + 1)}</span>
         <span className="drow__thumb">
@@ -32,6 +22,6 @@ export function DestinationRow({ d, i }: { d: Destination; i: number }) {
           </svg>
         </span>
       </a>
-    </motion.li>
+    </li>
   )
 }

@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
 
 import { Footer, Header } from '@/components/layout'
 import {
@@ -49,18 +48,16 @@ export default function App() {
 
       <main id="main">
         <IntroProvider done={!loading}>
-          <AnimatePresence mode="wait">
-            <PageShell key={location.pathname}>
-              <Routes location={location}>
-                <Route path="/" element={<Home />} />
-                <Route path="/destinations" element={<Destinations />} />
-                <Route path="/journeys" element={<Journeys />} />
-                <Route path="/story" element={<Story />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </PageShell>
-          </AnimatePresence>
+          <PageShell key={location.pathname}>
+            <Routes location={location}>
+              <Route path="/" element={<Home />} />
+              <Route path="/destinations" element={<Destinations />} />
+              <Route path="/journeys" element={<Journeys />} />
+              <Route path="/story" element={<Story />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </PageShell>
         </IntroProvider>
       </main>
 

@@ -1,7 +1,8 @@
-import { useRef, useState, type ReactNode } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { cx, img } from '@/lib/utils'
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+
 import { useReducedMotion } from '@/hooks'
+import { gsap } from '@/lib/gsap'
+import { cx, img } from '@/lib/utils'
 import './Figure.css'
 
 type Props = {
@@ -28,17 +29,31 @@ export function Figure({
   children,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null)
+  const imgRef = useRef<HTMLImageElement>(null)
   const reduced = useReducedMotion()
   const [loaded, setLoaded] = useState(false)
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  })
+  const drifts = parallax !== 0 && !reduced
 
-  const active = parallax !== 0 && !reduced
-  const y = useTransform(scrollYProgress, [0, 1], [-parallax, parallax])
-  const scale = useTransform(scrollYProgress, [0, 1], scaleIn && !reduced ? [1.16, 1] : [1, 1])
+  useLayoutEffect(() => {
+    const scope = ref.current
+    const el = imgRef.current
+    if (!scope || !el || reduced) return
+    if (!drifts && !scaleIn) return
+
+    const ctx = gsap.context(() => {
+      const trigger = { trigger: scope, start: 'top bottom', end: 'bottom top', scrub: true }
+
+      if (drifts) {
+        gsap.fromTo(el, { y: -parallax }, { y: parallax, ease: 'none', scrollTrigger: trigger })
+      }
+      if (scaleIn) {
+        gsap.fromTo(el, { scale: 1.16 }, { scale: 1, ease: 'none', scrollTrigger: trigger })
+      }
+    }, scope)
+
+    return () => ctx.revert()
+  }, [drifts, parallax, scaleIn, reduced])
 
   return (
     <div
@@ -46,7 +61,8 @@ export function Figure({
       className={cx('figure', loaded && 'is-loaded', className)}
       style={ratio ? { aspectRatio: ratio } : undefined}
     >
-      <motion.img
+      <img
+        ref={imgRef}
         src={img(id, width)}
         alt={alt}
         loading={priority ? 'eager' : 'lazy'}
@@ -54,10 +70,8 @@ export function Figure({
         fetchPriority={priority ? 'high' : 'auto'}
         onLoad={() => setLoaded(true)}
         style={{
-          y: active ? y : undefined,
-          scale: scaleIn && !reduced ? scale : undefined,
-          height: active ? `calc(100% + ${parallax * 2}px)` : '100%',
-          top: active ? `-${parallax}px` : 0,
+          height: drifts ? `calc(100% + ${parallax * 2}px)` : '100%',
+          top: drifts ? `-${parallax}px` : 0,
         }}
         draggable={false}
       />

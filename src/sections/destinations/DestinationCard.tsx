@@ -1,21 +1,11 @@
-import { motion } from 'framer-motion'
-
 import { Figure, Tag } from '@/components/ui'
 import type { Destination } from '@/data/destinations'
-import { EASE_OUT } from '@/lib/easing'
 import { cx, money } from '@/lib/utils'
 import './DestinationCard.css'
 
-export function DestinationCard({ d, i }: { d: Destination; i: number }) {
+export function DestinationCard({ d }: { d: Destination }) {
   return (
-    <motion.article
-      layout
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12 }}
-      transition={{ duration: 0.6, ease: EASE_OUT, delay: Math.min(i, 6) * 0.045 }}
-      className={cx('dcard', d.orientation === 'portrait' && 'dcard--tall')}
-    >
+    <article className={cx('dcard', d.orientation === 'portrait' && 'dcard--tall')}>
       <a href="#" className="dcard__link" data-cursor="view">
         <div className="dcard__media">
           <Figure
@@ -47,6 +37,6 @@ export function DestinationCard({ d, i }: { d: Destination; i: number }) {
           </span>
         </div>
       </a>
-    </motion.article>
+    </article>
   )
 }

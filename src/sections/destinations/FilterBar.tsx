@@ -31,7 +31,6 @@ export function FilterBar({
           value={region}
           onChange={onRegionChange}
           allLabel="Everywhere"
-          layoutId="region-pill"
         />
 
         <div className="dbar__right">

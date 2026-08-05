@@ -1,5 +1,7 @@
-import type { ReactNode } from 'react'
-import { motion } from 'framer-motion'
+import { useLayoutEffect, useRef, type ReactNode } from 'react'
+
+import { useReducedMotion } from '@/hooks'
+import { EASE_IN_OUT, gsap } from '@/lib/gsap'
 import { Figure } from './Figure'
 import { Lines, Reveal } from './Motion'
 import './PageHero.css'
@@ -15,6 +17,24 @@ type Props = {
 }
 
 export function PageHero({ eyebrow, index, lines, lead, meta, image, imageAlt }: Props) {
+  const mediaRef = useRef<HTMLDivElement>(null)
+  const reduced = useReducedMotion()
+
+  useLayoutEffect(() => {
+    const el = mediaRef.current
+    if (!el || reduced) return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el,
+        { clipPath: 'inset(14% 8% 14% 8%)' },
+        { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.5, ease: EASE_IN_OUT, delay: 0.3 },
+      )
+    }, el)
+
+    return () => ctx.revert()
+  }, [reduced])
+
   return (
     <header className="phero">
       <div className="shell">
@@ -43,14 +63,9 @@ export function PageHero({ eyebrow, index, lines, lead, meta, image, imageAlt }:
         </div>
       </div>
 
-      <motion.div
-        className="phero__media"
-        initial={{ clipPath: 'inset(14% 8% 14% 8%)' }}
-        animate={{ clipPath: 'inset(0% 0% 0% 0%)' }}
-        transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1], delay: 0.3 }}
-      >
+      <div ref={mediaRef} className="phero__media">
         <Figure id={image} alt={imageAlt} parallax={70} priority width={2400} />
-      </motion.div>
+      </div>
     </header>
   )
 }

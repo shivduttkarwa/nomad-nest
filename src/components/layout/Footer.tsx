@@ -1,6 +1,5 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import { nav, site, socials, studios } from '@/data/site'
 import { useLocalTime } from '@/hooks'
 import { Reveal } from '@/components/ui/Motion'
@@ -134,18 +133,11 @@ export function Footer() {
           </div>
         </div>
 
-        <motion.div
-          className="footer__wordmark"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-          aria-hidden="true"
-        >
-          <span className="display">
+        <Reveal y={40} amount={0.4} className="footer__wordmark">
+          <span className="display" aria-hidden="true">
             Nomad <em>&amp;</em> Nest
           </span>
-        </motion.div>
+        </Reveal>
 
         <div className="footer__legal">
           <span>

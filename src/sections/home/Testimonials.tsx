@@ -1,21 +1,38 @@
-import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { useLayoutEffect, useRef, useState } from 'react'
 
 import { Reveal } from '@/components/ui'
 import { testimonials } from '@/data/site'
-import { EASE_OUT } from '@/lib/easing'
+import { useReducedMotion } from '@/hooks'
+import { EASE_OUT, gsap } from '@/lib/gsap'
 import { pad } from '@/lib/utils'
 import './Testimonials.css'
 
 export function Testimonials() {
   const [i, setI] = useState(0)
   const [dir, setDir] = useState(1)
+  const quoteRef = useRef<HTMLQuoteElement>(null)
+  const reduced = useReducedMotion()
   const t = testimonials[i]
 
   const go = (step: number) => {
     setDir(step)
     setI((prev) => (prev + step + testimonials.length) % testimonials.length)
   }
+
+  useLayoutEffect(() => {
+    const el = quoteRef.current
+    if (!el || reduced) return
+
+    const tween = gsap.fromTo(
+      el,
+      { opacity: 0, y: 34 * dir },
+      { opacity: 1, y: 0, duration: 0.6, ease: EASE_OUT },
+    )
+
+    return () => {
+      tween.kill()
+    }
+  }, [i, dir, reduced])
 
   return (
     <section className="quotes section">
@@ -30,30 +47,13 @@ export function Testimonials() {
         </div>
 
         <div className="quotes__stage" data-cursor="drag">
-          <AnimatePresence mode="wait" custom={dir}>
-            <motion.blockquote
-              key={i}
-              className="quotes__quote"
-              custom={dir}
-              initial={{ opacity: 0, y: 34 * dir }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -34 * dir }}
-              transition={{ duration: 0.6, ease: EASE_OUT }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.18}
-              onDragEnd={(_, info) => {
-                if (info.offset.x < -80) go(1)
-                else if (info.offset.x > 80) go(-1)
-              }}
-            >
-              <p className="display d3">“{t.quote}”</p>
-              <footer>
-                <cite>{t.name}</cite>
-                <span className="mono">{t.detail}</span>
-              </footer>
-            </motion.blockquote>
-          </AnimatePresence>
+          <blockquote ref={quoteRef} className="quotes__quote">
+            <p className="display d3">“{t.quote}”</p>
+            <footer>
+              <cite>{t.name}</cite>
+              <span className="mono">{t.detail}</span>
+            </footer>
+          </blockquote>
         </div>
 
         <div className="quotes__nav">

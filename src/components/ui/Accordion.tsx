@@ -1,6 +1,7 @@
 import { useId, useState, type ReactNode } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+
 import { cx } from '@/lib/utils'
+import { Collapse } from './Collapse'
 import './Accordion.css'
 
 export type AccordionItem = {
@@ -45,20 +46,9 @@ export function Accordion({ items, defaultOpen, className, numbered = false }: P
               </button>
             </h3>
 
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  id={`${uid}-${item.key}`}
-                  className="accordion__panel"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <div className="accordion__inner">{item.body}</div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <Collapse open={isOpen} id={`${uid}-${item.key}`} className="accordion__panel" duration={0.55}>
+              <div className="accordion__inner">{item.body}</div>
+            </Collapse>
           </div>
         )
       })}
