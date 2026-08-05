@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion'
 
 import { ArrowLink, Btn, Lines } from '@/components/ui'
+import { useIntroDone } from '@/components/system'
 import { useReducedMotion } from '@/hooks'
 import { EASE_IN_OUT, EASE_OUT } from '@/lib/easing'
 import { asset, cx } from '@/lib/utils'
@@ -10,6 +11,7 @@ import './Hero.css'
 
 const SLIDE_MS = 6200
 const WIPE_S = 1.5
+const INTRO = 1.1
 
 const SLIDES = [
   {
@@ -39,6 +41,7 @@ const WIPE_TO = 'polygon(0% 0%, 130% 0%, 100% 100%, -30% 100%)'
 
 export function Hero() {
   const reduced = useReducedMotion()
+  const ready = useIntroDone()
   const [index, setIndex] = useState(0)
   const timer = useRef(0)
 
@@ -53,10 +56,10 @@ export function Hero() {
   }, [])
 
   const schedule = useCallback(() => {
-    if (reduced) return
+    if (reduced || !ready) return
     window.clearTimeout(timer.current)
     timer.current = window.setTimeout(() => setIndex((i) => (i + 1) % SLIDES.length), SLIDE_MS)
-  }, [reduced])
+  }, [reduced, ready])
 
   useEffect(() => {
     schedule()
@@ -69,9 +72,9 @@ export function Hero() {
     <section className="hero">
       <motion.div
         className="hero__media"
-        initial={{ clipPath: 'inset(22% 18% 22% 18%)' }}
-        animate={{ clipPath: 'inset(0% 0% 0% 0%)' }}
-        transition={{ duration: 1.8, ease: EASE_IN_OUT, delay: 0.25 }}
+        initial={{ clipPath: 'inset(26% 20% 26% 20%)' }}
+        animate={ready ? { clipPath: 'inset(0% 0% 0% 0%)' } : undefined}
+        transition={{ duration: 1.7, ease: EASE_IN_OUT, delay: INTRO }}
       >
         <AnimatePresence initial={false}>
           <motion.div
@@ -99,9 +102,9 @@ export function Hero() {
 
       <motion.div
         className="hero__dots"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 2.1 }}
+        initial={{ opacity: 0, x: 24 }}
+        animate={ready ? { opacity: 1, x: 0 } : undefined}
+        transition={{ duration: 0.9, ease: EASE_OUT, delay: INTRO + 1.2 }}
       >
         {SLIDES.map((s, i) => (
           <button
@@ -130,8 +133,9 @@ export function Hero() {
         <Lines
           as="h1"
           className="display hero__title"
-          delay={1.25}
-          stagger={0.1}
+          play={ready}
+          delay={INTRO + 0.35}
+          stagger={0.12}
           lines={[
             <>Journeys designed</>,
             <>
@@ -140,30 +144,35 @@ export function Hero() {
           ]}
         />
 
-        <motion.div
-          className="hero__sub"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: EASE_OUT, delay: 1.7 }}
-        >
-          <p className="lead">
+        <div className="hero__sub">
+          <motion.p
+            className="lead"
+            initial={{ opacity: 0, y: 26 }}
+            animate={ready ? { opacity: 1, y: 0 } : undefined}
+            transition={{ duration: 1, ease: EASE_OUT, delay: INTRO + 0.8 }}
+          >
             Roughly a hundred trips a year, written by hand for people who would rather see one valley properly than
             six countries badly.
-          </p>
-          <div className="hero__actions">
+          </motion.p>
+          <motion.div
+            className="hero__actions"
+            initial={{ opacity: 0, y: 26 }}
+            animate={ready ? { opacity: 1, y: 0 } : undefined}
+            transition={{ duration: 1, ease: EASE_OUT, delay: INTRO + 0.95 }}
+          >
             <Btn to="/journeys" tone="paper" size="lg">
               See our journeys
             </Btn>
             <ArrowLink to="/contact">Plan something of your own</ArrowLink>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
 
       <motion.div
         className="hero__bar shell"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 2 }}
+        initial={{ opacity: 0, y: 18 }}
+        animate={ready ? { opacity: 1, y: 0 } : undefined}
+        transition={{ duration: 0.9, ease: EASE_OUT, delay: INTRO + 1.1 }}
       >
         <div className="hero__barcell">
           <span className="mono">Currently mapping</span>

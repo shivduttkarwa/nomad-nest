@@ -5,6 +5,7 @@ import { AnimatePresence } from 'framer-motion'
 import { Footer, Header } from '@/components/layout'
 import {
   Cursor,
+  IntroProvider,
   PageShell,
   Preloader,
   RouteCurtain,
@@ -47,18 +48,20 @@ export default function App() {
       <Header />
 
       <main id="main">
-        <AnimatePresence mode="wait" initial={false}>
-          <PageShell key={location.pathname}>
-            <Routes location={location}>
-              <Route path="/" element={<Home />} />
-              <Route path="/destinations" element={<Destinations />} />
-              <Route path="/journeys" element={<Journeys />} />
-              <Route path="/story" element={<Story />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </PageShell>
-        </AnimatePresence>
+        <IntroProvider done={!loading}>
+          <AnimatePresence mode="wait">
+            <PageShell key={location.pathname}>
+              <Routes location={location}>
+                <Route path="/" element={<Home />} />
+                <Route path="/destinations" element={<Destinations />} />
+                <Route path="/journeys" element={<Journeys />} />
+                <Route path="/story" element={<Story />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </PageShell>
+          </AnimatePresence>
+        </IntroProvider>
       </main>
 
       <Footer />

@@ -62,7 +62,7 @@ export function Header() {
           </nav>
 
           <div className="header__actions">
-            <Btn to="/contact" size="md" variant="outline" className="header__cta">
+            <Btn to="/contact" size="md" tone="paper" className="header__cta">
               Plan a trip
             </Btn>
 

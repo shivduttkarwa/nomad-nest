@@ -108,11 +108,16 @@
   align-items: center;
   gap: clamp(0.75rem, 1.6vw, 1.5rem);
 }
-.header__cta .btn {
-  padding: 0.85em 1.4em;
+.header__cta {
+  padding: 0.95em 1.6em;
 }
-.header.is-light .header__cta .btn {
-  --btn-bd: rgb(var(--paper-rgb) / 0.62);
+.header.is-light .header__cta {
+  box-shadow: 0 0.5rem 1.4rem rgb(var(--ink-rgb) / 0.28);
+}
+.header:not(.is-light) .header__cta {
+  --btn-bg: var(--ink);
+  --btn-fg: var(--paper);
+  --btn-bd: var(--ink);
 }
 
 .header__toggle {

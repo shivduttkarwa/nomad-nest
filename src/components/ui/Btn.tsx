@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { cx } from '@/lib/utils'
-import { useMagnetic } from '@/hooks'
 import './Btn.css'
 
 type Common = {
@@ -34,18 +33,11 @@ export function Btn({
   className,
   full,
 }: Props) {
-  const magnet = useMagnetic<HTMLSpanElement>(0.28)
-
   const cls = cx('btn', `btn--${variant}`, `btn--${tone}`, `btn--${size}`, full && 'btn--full', className)
 
   const inner = (
     <>
-      <span className="btn__label">
-        <span className="btn__label-a">{children}</span>
-        <span className="btn__label-b" aria-hidden="true">
-          {children}
-        </span>
-      </span>
+      <span className="btn__label">{children}</span>
       <span className="btn__arrow" aria-hidden="true">
         <svg viewBox="0 0 14 14" width="11" height="11" fill="none">
           <path d="M1 13L13 1M13 1H4M13 1V10" stroke="currentColor" strokeWidth="1.4" />
@@ -54,32 +46,24 @@ export function Btn({
     </>
   )
 
-  if (to) {
+  if (to)
     return (
-      <span className="btn-magnet" ref={magnet}>
-        <Link to={to} className={cls}>
-          {inner}
-        </Link>
-      </span>
+      <Link to={to} className={cls}>
+        {inner}
+      </Link>
     )
-  }
 
-  if (href) {
+  if (href)
     return (
-      <span className="btn-magnet" ref={magnet}>
-        <a href={href} className={cls} target="_blank" rel="noreferrer">
-          {inner}
-        </a>
-      </span>
+      <a href={href} className={cls} target="_blank" rel="noreferrer">
+        {inner}
+      </a>
     )
-  }
 
   return (
-    <span className="btn-magnet" ref={magnet}>
-      <button type={type} onClick={onClick} disabled={disabled} className={cls}>
-        {inner}
-      </button>
-    </span>
+    <button type={type} onClick={onClick} disabled={disabled} className={cls}>
+      {inner}
+    </button>
   )
 }
 

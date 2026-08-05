@@ -40,16 +40,19 @@ export function Lines({
   className,
   delay = 0,
   stagger = 0.085,
+  play = true,
   as: Tag = 'h2',
 }: {
   lines: ReactNode[]
   className?: string
   delay?: number
   stagger?: number
+  play?: boolean
   as?: ElementType
 }) {
   const ref = useRef<HTMLElement>(null)
-  const inView = useInView(ref, { once: true, amount: 0.35 })
+  const seen = useInView(ref, { once: true, amount: 0.35 })
+  const inView = seen && play
 
   return (
     <Tag ref={ref} className={cx('lines', className)}>
@@ -91,7 +94,7 @@ export function WordReveal({ text, className }: { text: string; className?: stri
   const reduced = useReducedMotion()
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ['start 0.85', 'start 0.28'],
+    offset: ['start 0.9', 'start 0.5'],
   })
 
   const words = text.split(' ')

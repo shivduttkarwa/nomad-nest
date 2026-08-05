@@ -9,6 +9,11 @@ const LABELS: Partial<Record<Mode, string>> = {
   drag: 'Drag',
 }
 
+const DOT_EASE = 0.55
+const RING_EASE = 0.12
+const FRAME = 1000 / 60
+const INTERACTIVE = 'a, button, input, textarea, select, label, [role="button"]'
+
 export function Cursor() {
   const isDesktop = useIsDesktop()
   const reduced = useReducedMotion()
@@ -22,29 +27,50 @@ export function Cursor() {
 
     document.documentElement.classList.add('has-custom-cursor')
 
-    let mx = window.innerWidth / 2
-    let my = window.innerHeight / 2
-    let rx = mx
-    let ry = my
-    let raf = 0
-    let shown = false
+    const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
+    const dot = { ...pointer }
+    const ring = { ...pointer }
 
-    const render = () => {
-      rx += (mx - rx) * 0.15
-      ry += (my - ry) * 0.15
-      if (dotRef.current) dotRef.current.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`
-      if (ringRef.current) ringRef.current.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`
+    let raf = 0
+    let last = performance.now()
+    let shown = false
+    let lastTarget: EventTarget | null = null
+
+    const ease = (current: number, target: number, factor: number, frames: number) =>
+      current + (target - current) * (1 - Math.pow(1 - factor, frames))
+
+    const render = (now: number) => {
+      const frames = Math.min(5, (now - last) / FRAME)
+      last = now
+
+      dot.x = ease(dot.x, pointer.x, DOT_EASE, frames)
+      dot.y = ease(dot.y, pointer.y, DOT_EASE, frames)
+      ring.x = ease(ring.x, pointer.x, RING_EASE, frames)
+      ring.y = ease(ring.y, pointer.y, RING_EASE, frames)
+
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${dot.x}px, ${dot.y}px, 0) translate(-50%, -50%)`
+      }
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${ring.x}px, ${ring.y}px, 0) translate(-50%, -50%)`
+      }
+
       raf = requestAnimationFrame(render)
     }
+
     raf = requestAnimationFrame(render)
 
     const onMove = (e: PointerEvent) => {
-      mx = e.clientX
-      my = e.clientY
+      pointer.x = e.clientX
+      pointer.y = e.clientY
+
       if (!shown) {
         shown = true
         setVisible(true)
       }
+
+      if (e.target === lastTarget) return
+      lastTarget = e.target
 
       const el = e.target as HTMLElement | null
       const flagged = el?.closest<HTMLElement>('[data-cursor]')
@@ -52,8 +78,7 @@ export function Cursor() {
         setMode((flagged.dataset.cursor as Mode) ?? 'default')
         return
       }
-      const interactive = el?.closest('a, button, input, textarea, select, [role="button"]')
-      setMode(interactive ? 'link' : 'default')
+      setMode(el?.closest(INTERACTIVE) ? 'link' : 'default')
     }
 
     const onLeave = () => {

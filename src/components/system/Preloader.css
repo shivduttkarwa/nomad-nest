@@ -32,7 +32,7 @@
   stroke-linejoin: round;
 }
 .preloader__wing {
-  fill: rgb(var(--accent-soft-rgb) / 0.32);
+  fill: var(--accent-soft);
 }
 .preloader__crease {
   stroke: rgb(var(--paper-rgb) / 0.34);

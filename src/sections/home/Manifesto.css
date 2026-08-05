@@ -15,6 +15,9 @@
   position: relative;
   will-change: transform;
 }
+.manifesto__frame {
+  overflow: hidden;
+}
 .manifesto__caption {
   display: block;
   margin-top: 0.9rem;

@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 
 import { Figure, Reveal, WordReveal, useParallax } from '@/components/ui'
 import { HOME_IMAGES } from './images'
@@ -6,6 +7,14 @@ import './Manifesto.css'
 
 export function Manifesto() {
   const { ref, y } = useParallax(70)
+  const frameRef = useRef<HTMLDivElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: frameRef,
+    offset: ['start 0.95', 'start 0.5'],
+  })
+
+  const clipPath = useTransform(scrollYProgress, (p) => `inset(0% 0% ${(1 - p) * 100}% 0%)`)
 
   return (
     <section className="manifesto section" ref={ref}>
@@ -14,13 +23,20 @@ export function Manifesto() {
           <Reveal as="span" y={12} className="eyebrow">
             Who we are
           </Reveal>
+
           <motion.div className="manifesto__figure" style={{ y }}>
-            <Figure
-              id={HOME_IMAGES.studio}
-              alt="The Fitzroy studio — a quiet gallery-like room hung with prints"
-              ratio="3 / 4"
-            />
-            <span className="manifesto__caption mono">The Fitzroy studio, Melbourne</span>
+            <motion.div ref={frameRef} className="manifesto__frame" style={{ clipPath }}>
+              <Figure
+                id={HOME_IMAGES.studio}
+                alt="The Fitzroy studio — a quiet gallery-like room hung with prints"
+                ratio="3 / 4"
+                scaleIn
+              />
+            </motion.div>
+
+            <Reveal as="span" y={10} delay={0.35} amount={0.2} className="manifesto__caption mono">
+              The Fitzroy studio, Melbourne
+            </Reveal>
           </motion.div>
         </div>
 
@@ -30,17 +46,20 @@ export function Manifesto() {
             text="We are not a booking engine with a nicer typeface. We are a small studio that writes about a hundred journeys a year — slowly, by hand, and only for people we think we can genuinely help."
           />
 
-          <Reveal delay={0.1} className="manifesto__foot">
-            <p>
-              Every itinerary begins with a conversation and ends with a document that has your name on it: the route,
-              the reasoning, the alternatives we considered and set aside. If we cannot improve on what you would book
-              yourself, we will tell you so.
-            </p>
-            <div className="manifesto__sign">
+          <div className="manifesto__foot">
+            <Reveal y={24} amount={0.3}>
+              <p>
+                Every itinerary begins with a conversation and ends with a document that has your name on it: the route,
+                the reasoning, the alternatives we considered and set aside. If we cannot improve on what you would book
+                yourself, we will tell you so.
+              </p>
+            </Reveal>
+
+            <Reveal y={24} delay={0.14} amount={0.3} className="manifesto__sign">
               <span className="display d5">Priya Raghavan</span>
               <span className="mono">Founder — writing since 2011</span>
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
         </div>
       </div>
     </section>
