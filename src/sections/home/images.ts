@@ -1,5 +1,11 @@
 export const HOME_IMAGES = {
-  hero: '/images/home/hero.webp',
+  hero: '/images/home/hero-01-patagonia.webp',
+  heroes: [
+    '/images/home/hero-01-patagonia.webp',
+    '/images/home/hero-02-namibia.webp',
+    '/images/home/hero-03-yakushima.webp',
+    '/images/home/hero-04-raja-ampat.webp',
+  ],
   studio: '/images/home/studio.webp',
   cta: '/images/home/cta-ridges.webp',
   destinations: {

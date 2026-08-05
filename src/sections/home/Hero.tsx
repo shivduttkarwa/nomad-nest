@@ -1,23 +1,69 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion'
 
-import { ArrowLink, Btn, Figure, Lines } from '@/components/ui'
+import { ArrowLink, Btn, Lines } from '@/components/ui'
+import { useReducedMotion } from '@/hooks'
 import { EASE_IN_OUT, EASE_OUT } from '@/lib/easing'
+import { asset, cx } from '@/lib/utils'
 import { HOME_IMAGES } from './images'
 import './Hero.css'
 
-const TICKER = ['Kyoto, Japan', 'The Dolomites, Italy', 'Serengeti, Tanzania', 'Sacred Valley, Peru']
+const SLIDE_MS = 6200
+const WIPE_S = 1.5
+
+const SLIDES = [
+  {
+    image: HOME_IMAGES.heroes[0],
+    place: 'Torres del Paine, Patagonia',
+    alt: 'Granite towers rising over a glacial lake in Torres del Paine, Patagonia',
+  },
+  {
+    image: HOME_IMAGES.heroes[1],
+    place: 'Sossusvlei, Namibia',
+    alt: 'Wind-sculpted red dunes meeting pale clay pans at Sossusvlei, Namibia',
+  },
+  {
+    image: HOME_IMAGES.heroes[2],
+    place: 'Yakushima, Japan',
+    alt: 'Moss-covered ancient cedar forest on the island of Yakushima, Japan',
+  },
+  {
+    image: HOME_IMAGES.heroes[3],
+    place: 'Raja Ampat, Indonesia',
+    alt: 'Limestone karst islands scattered across shallow turquoise water in Raja Ampat',
+  },
+]
+
+const WIPE_FROM = 'polygon(0% 0%, 0% 0%, -30% 100%, -30% 100%)'
+const WIPE_TO = 'polygon(0% 0%, 130% 0%, 100% 100%, -30% 100%)'
 
 export function Hero() {
-  const [now, setNow] = useState(0)
-
-  useEffect(() => {
-    const id = window.setInterval(() => setNow((n) => (n + 1) % TICKER.length), 3200)
-    return () => window.clearInterval(id)
-  }, [])
+  const reduced = useReducedMotion()
+  const [index, setIndex] = useState(0)
+  const timer = useRef(0)
 
   const { scrollYProgress } = useScroll()
   const veil = useTransform(scrollYProgress, [0, 0.14], [0, 1])
+
+  useEffect(() => {
+    SLIDES.forEach((s) => {
+      const preload = new Image()
+      preload.src = asset(s.image)
+    })
+  }, [])
+
+  const schedule = useCallback(() => {
+    if (reduced) return
+    window.clearTimeout(timer.current)
+    timer.current = window.setTimeout(() => setIndex((i) => (i + 1) % SLIDES.length), SLIDE_MS)
+  }, [reduced])
+
+  useEffect(() => {
+    schedule()
+    return () => window.clearTimeout(timer.current)
+  }, [index, schedule])
+
+  const slide = SLIDES[index]
 
   return (
     <section className="hero">
@@ -27,27 +73,60 @@ export function Hero() {
         animate={{ clipPath: 'inset(0% 0% 0% 0%)' }}
         transition={{ duration: 1.8, ease: EASE_IN_OUT, delay: 0.25 }}
       >
-        <Figure
-          id={HOME_IMAGES.hero}
-          alt="A lone figure on a rock outcrop above mist-filled valleys at dawn"
-          priority
-          scaleIn
-          width={2600}
-        />
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={index}
+            className="hero__slide"
+            initial={{ clipPath: reduced ? WIPE_TO : WIPE_FROM }}
+            animate={{ clipPath: WIPE_TO }}
+            exit={{ opacity: 0, transition: { duration: 0.5, delay: WIPE_S * 0.75 } }}
+            transition={{ duration: reduced ? 0 : WIPE_S, ease: EASE_IN_OUT }}
+          >
+            <motion.img
+              src={asset(slide.image)}
+              alt={slide.alt}
+              draggable={false}
+              initial={{ scale: reduced ? 1 : 1.18 }}
+              animate={{ scale: reduced ? 1 : 1.02 }}
+              transition={{ duration: reduced ? 0 : SLIDE_MS / 1000 + WIPE_S, ease: 'linear' }}
+            />
+          </motion.div>
+        </AnimatePresence>
+
         <div className="hero__grade" />
         <motion.div className="hero__veil" style={{ opacity: veil }} />
       </motion.div>
 
-      <div className="shell hero__content">
-        <motion.span
-          className="eyebrow hero__eyebrow"
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: EASE_OUT, delay: 1.15 }}
-        >
-          Est. 2011 — a private travel atelier
-        </motion.span>
+      <motion.div
+        className="hero__dots"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 2.1 }}
+      >
+        {SLIDES.map((s, i) => (
+          <button
+            key={s.image}
+            type="button"
+            className={cx('hero__dot', i === index && 'is-on')}
+            onClick={() => setIndex(i)}
+            aria-label={s.place}
+            aria-current={i === index}
+          >
+            <span className="hero__dotrail">
+              {i === index && (
+                <motion.i
+                  key={index}
+                  initial={{ scaleX: reduced ? 1 : 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: reduced ? 0 : SLIDE_MS / 1000, ease: 'linear' }}
+                />
+              )}
+            </span>
+          </button>
+        ))}
+      </motion.div>
 
+      <div className="shell hero__content">
         <Lines
           as="h1"
           className="display hero__title"
@@ -91,13 +170,13 @@ export function Hero() {
           <span className="hero__ticker">
             <AnimatePresence mode="wait">
               <motion.span
-                key={now}
+                key={index}
                 initial={{ y: '105%', opacity: 0 }}
                 animate={{ y: '0%', opacity: 1 }}
                 exit={{ y: '-105%', opacity: 0 }}
                 transition={{ duration: 0.55, ease: EASE_OUT }}
               >
-                {TICKER[now]}
+                {slide.place}
               </motion.span>
             </AnimatePresence>
           </span>

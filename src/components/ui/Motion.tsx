@@ -57,7 +57,7 @@ export function Lines({
         <span className="lines__mask" key={i}>
           <motion.span
             className="lines__line"
-            initial={{ y: '105%' }}
+            initial={{ y: '150%' }}
             animate={inView ? { y: '0%' } : undefined}
             transition={{ duration: 1.05, ease: EASE, delay: delay + i * stagger }}
           >

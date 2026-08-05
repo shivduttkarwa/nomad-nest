@@ -4,8 +4,8 @@
 .lines__mask {
   display: block;
   overflow: hidden;
-  padding-bottom: 0.06em;
-  margin-bottom: -0.06em;
+  padding-bottom: 0.3em;
+  margin-bottom: -0.3em;
 }
 .lines__line {
   display: block;
