@@ -20,7 +20,7 @@
 }
 .press__logo i {
   font-style: normal;
-  color: var(--ember);
+  color: var(--accent);
   padding-inline: 0.5em;
   opacity: 0.6;
 }

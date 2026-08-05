@@ -12,7 +12,7 @@
   transition: color 0.4s var(--ease-out);
 }
 .jrow__head:hover {
-  color: var(--ember);
+  color: var(--accent);
 }
 .jrow__index {
   color: var(--text-faint);
@@ -100,7 +100,7 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--ember);
+  background: var(--accent);
   margin-top: 0.6em;
 }
 .jrow__tags {
@@ -122,7 +122,7 @@
   border-bottom: 1px solid var(--rule);
 }
 .jrow__span {
-  color: var(--ember);
+  color: var(--accent);
   padding-top: 0.4em;
 }
 .jrow__days p {

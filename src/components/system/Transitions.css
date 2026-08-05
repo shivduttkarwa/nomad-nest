@@ -18,7 +18,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--ember);
+  background: var(--accent);
   transform-origin: 0 50%;
   z-index: calc(var(--z-header) + 1);
 }

@@ -40,7 +40,7 @@
   transition: color 0.4s var(--ease-out);
 }
 .dcard:hover .dcard__head h3 {
-  color: var(--ember);
+  color: var(--accent);
 }
 .dcard__country {
   color: var(--text-faint);

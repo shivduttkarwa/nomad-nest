@@ -19,5 +19,5 @@
 }
 .wordmark__text em {
   font-style: italic;
-  color: var(--ember);
+  color: var(--accent);
 }

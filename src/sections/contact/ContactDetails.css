@@ -16,7 +16,7 @@
   gap: clamp(2rem, 4vw, 3rem);
 }
 .contact__asidetitle em {
-  color: var(--ember);
+  color: var(--accent);
 }
 .contact__direct {
   display: flex;
@@ -38,7 +38,7 @@
   transition: color 0.35s ease;
 }
 .contact__direct a:hover {
-  color: var(--ember);
+  color: var(--accent);
 }
 .contact__studios {
   display: flex;

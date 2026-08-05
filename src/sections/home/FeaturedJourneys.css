@@ -48,7 +48,7 @@
   transition: color 0.4s var(--ease-out);
 }
 .jcard:hover .jcard__body h3 {
-  color: var(--ember);
+  color: var(--accent);
 }
 .jcard__sub {
   margin-top: 0.5rem;

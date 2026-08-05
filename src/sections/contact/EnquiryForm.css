@@ -43,7 +43,7 @@
 .enquiry__track i {
   display: block;
   height: 100%;
-  background: var(--ember);
+  background: var(--accent);
   transform-origin: 0 50%;
 }
 .enquiry__hint {
@@ -82,7 +82,7 @@
 }
 .field__label b {
   font-weight: 500;
-  color: var(--ember);
+  color: var(--accent);
   font-family: var(--font-mono);
   font-size: var(--fs-sm);
   font-variant-numeric: tabular-nums;
@@ -99,7 +99,7 @@
 .field input:not(.range):focus,
 .field textarea:focus {
   outline: none;
-  border-color: var(--ember);
+  border-color: var(--accent);
 }
 .field input::placeholder,
 .field textarea::placeholder {
@@ -167,11 +167,11 @@
 }
 .range:hover::-webkit-slider-thumb,
 .range:focus::-webkit-slider-thumb {
-  background: var(--ember);
+  background: var(--accent);
   transform: scale(1.2);
 }
 .range:hover::-moz-range-thumb {
-  background: var(--ember);
+  background: var(--accent);
 }
 
 .chips {
@@ -214,7 +214,7 @@
   color: var(--paper);
 }
 .chip.is-on .chip__country {
-  color: rgba(242, 239, 231, 0.5);
+  color: rgb(var(--paper-rgb) / 0.5);
 }
 
 .enquiry__summary {
@@ -240,7 +240,7 @@
 
 .enquiry__error {
   margin-top: 1.25rem;
-  color: var(--ember);
+  color: var(--accent);
 }
 .enquiry__actions {
   display: flex;
@@ -283,7 +283,7 @@
   max-width: 20ch;
 }
 .enquiry--done em {
-  color: var(--ember);
+  color: var(--accent);
 }
 .enquiry--done .muted {
   max-width: 46ch;

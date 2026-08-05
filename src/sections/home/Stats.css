@@ -34,7 +34,7 @@
   letter-spacing: 0.14em;
 }
 .stats__ribbon i {
-  color: var(--ember-soft);
+  color: var(--accent-soft);
   font-style: normal;
   padding-inline: 0.4em;
 }

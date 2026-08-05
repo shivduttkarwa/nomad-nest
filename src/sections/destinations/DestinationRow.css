@@ -25,7 +25,7 @@
   transition: color 0.4s ease;
 }
 .drow__link:hover {
-  color: var(--ember);
+  color: var(--accent);
 }
 .drow__num {
   color: var(--text-faint);

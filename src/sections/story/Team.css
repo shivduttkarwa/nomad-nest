@@ -36,8 +36,8 @@
   transition: background-color 0.5s var(--ease-out), color 0.4s ease, border-color 0.4s ease;
 }
 .team__cell:hover .team__monogram {
-  background: var(--ember);
-  border-color: var(--ember);
+  background: var(--accent);
+  border-color: var(--accent);
   color: var(--paper);
 }
 .team__info {

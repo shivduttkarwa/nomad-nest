@@ -30,7 +30,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--ember);
+  background: var(--accent);
   border-radius: inherit;
   transform: scaleY(0);
   transform-origin: 50% 100%;
@@ -42,7 +42,7 @@
 }
 .btn:hover {
   color: var(--paper);
-  border-color: var(--ember);
+  border-color: var(--accent);
 }
 
 .btn--lg {
@@ -66,12 +66,12 @@
   --btn-fg: var(--ink);
   --btn-bd: var(--paper);
 }
-.btn--ember {
-  --btn-bg: var(--ember);
+.btn--accent {
+  --btn-bg: var(--accent);
   --btn-fg: var(--paper);
-  --btn-bd: var(--ember);
+  --btn-bd: var(--accent);
 }
-.btn--ember::before {
+.btn--accent::before {
   background: var(--ink);
 }
 .btn--full {

@@ -26,16 +26,16 @@
   overflow: visible;
 }
 .preloader__body {
-  fill: rgba(242, 239, 231, 0.05);
-  stroke: rgba(242, 239, 231, 0.62);
+  fill: rgb(var(--paper-rgb) / 0.05);
+  stroke: rgb(var(--paper-rgb) / 0.62);
   stroke-width: 1.6;
   stroke-linejoin: round;
 }
 .preloader__wing {
-  fill: rgba(176, 81, 42, 0.28);
+  fill: rgb(var(--accent-soft-rgb) / 0.32);
 }
 .preloader__crease {
-  stroke: rgba(242, 239, 231, 0.34);
+  stroke: rgb(var(--paper-rgb) / 0.34);
   stroke-width: 1.2;
   stroke-linecap: round;
 }
@@ -60,7 +60,7 @@
 }
 .preloader__name em {
   font-style: italic;
-  color: var(--ember-soft);
+  color: var(--accent-soft);
 }
 
 .preloader__count {

@@ -15,7 +15,7 @@
   max-width: 18ch;
 }
 .footer__statement em {
-  color: var(--ember-soft);
+  color: var(--accent-soft);
   font-style: italic;
 }
 .footer__bigcta {
@@ -74,7 +74,7 @@
   transition: color 0.4s ease;
 }
 .footer__newsnote.is-done {
-  color: var(--ember-soft);
+  color: var(--accent-soft);
 }
 
 .footer__cols {
@@ -119,13 +119,13 @@
   font-size: clamp(3.2rem, 15.4vw, 15rem);
   line-height: 0.86;
   letter-spacing: -0.035em;
-  color: rgba(242, 239, 231, 0.09);
+  color: rgb(var(--paper-rgb) / 0.09);
   white-space: nowrap;
   text-align: center;
 }
 .footer__wordmark em {
   font-style: italic;
-  color: rgba(176, 81, 42, 0.42);
+  color: rgb(var(--accent-soft-rgb) / 0.33);
 }
 
 .footer__legal {

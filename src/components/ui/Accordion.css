@@ -19,7 +19,7 @@
   transition: color 0.4s var(--ease-out);
 }
 .accordion__trigger:hover {
-  color: var(--ember);
+  color: var(--accent);
 }
 .accordion__num {
   color: var(--text-faint);

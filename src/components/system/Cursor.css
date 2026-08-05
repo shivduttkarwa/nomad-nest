@@ -45,7 +45,7 @@
 .cursor__ring {
   width: 34px;
   height: 34px;
-  border: 1px solid rgba(242, 239, 231, 0.7);
+  border: 1px solid rgb(var(--paper-rgb) / 0.7);
   display: grid;
   place-items: center;
   transition:
@@ -57,7 +57,7 @@
 .cursor__ring[data-mode='link'] {
   width: 54px;
   height: 54px;
-  background: rgba(242, 239, 231, 0.14);
+  background: rgb(var(--paper-rgb) / 0.14);
 }
 .cursor__ring[data-mode='view'],
 .cursor__ring[data-mode='drag'] {

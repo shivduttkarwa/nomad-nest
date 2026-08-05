@@ -7,7 +7,7 @@ import './Btn.css'
 type Common = {
   children: ReactNode
   variant?: 'solid' | 'outline' | 'ghost'
-  tone?: 'ink' | 'paper' | 'ember'
+  tone?: 'ink' | 'paper' | 'accent'
   size?: 'md' | 'lg'
   className?: string
   full?: boolean

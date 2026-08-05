@@ -9,7 +9,7 @@
 }
 .impact__value {
   display: block;
-  color: var(--ember);
+  color: var(--accent);
   line-height: 1;
 }
 .impact__cell p {

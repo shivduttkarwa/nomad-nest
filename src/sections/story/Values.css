@@ -8,7 +8,7 @@
   border-top: 1px solid var(--rule);
 }
 .values__n {
-  color: var(--ember);
+  color: var(--accent);
   display: block;
   margin-bottom: 1.25rem;
 }

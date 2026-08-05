@@ -16,7 +16,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, var(--ink) 0%, rgba(18, 17, 15, 0.4) 40%, var(--ink) 100%);
+  background: linear-gradient(180deg, var(--ink) 0%, rgb(var(--ink-rgb) / 0.4) 40%, var(--ink) 100%);
 }
 .cta__inner {
   position: relative;
@@ -27,7 +27,7 @@
   max-width: 16ch;
 }
 .cta__title em {
-  color: var(--ember-soft);
+  color: var(--accent-soft);
 }
 .cta__body {
   display: grid;
@@ -66,13 +66,13 @@
   font-size: clamp(3rem, 9vw, 8rem);
   line-height: 1;
   letter-spacing: -0.03em;
-  color: rgba(242, 239, 231, 0.12);
+  color: rgb(var(--paper-rgb) / 0.12);
   padding-right: 0.3em;
   white-space: nowrap;
 }
 .cta__ribbon i {
   font-style: normal;
-  color: var(--ember);
+  color: var(--accent);
   opacity: 0.65;
 }
 

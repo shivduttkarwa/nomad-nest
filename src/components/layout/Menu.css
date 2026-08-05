@@ -114,7 +114,7 @@
   transition: transform 0.65s var(--ease-out);
 }
 .menu__link:hover {
-  color: var(--ember-soft);
+  color: var(--accent-soft);
 }
 .menu__link:hover .menu__link-text::after {
   transform: scaleX(1);

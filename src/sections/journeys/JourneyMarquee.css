@@ -12,5 +12,5 @@
 }
 .jmarquee__text i {
   font-style: normal;
-  color: var(--ember);
+  color: var(--accent);
 }

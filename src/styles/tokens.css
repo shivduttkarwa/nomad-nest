@@ -1,32 +1,40 @@
 :root {
-  --paper: #f2efe7;
-  --paper-2: #eae5d9;
-  --paper-3: #ded7c7;
+  --paper-rgb: 242 239 231;
+  --paper-2-rgb: 234 229 217;
+  --paper-3-rgb: 222 215 199;
+  --ink-rgb: 18 17 15;
+  --text-rgb: 23 21 15;
+  --accent-rgb: 166 63 16;
+  --accent-soft-rgb: 232 131 79;
 
-  --ink: #12110f;
+  --paper: rgb(var(--paper-rgb));
+  --paper-2: rgb(var(--paper-2-rgb));
+  --paper-3: rgb(var(--paper-3-rgb));
+
+  --ink: rgb(var(--ink-rgb));
   --ink-2: #1c1a17;
   --ink-3: #2a2723;
 
-  --text: #17150f;
+  --text: rgb(var(--text-rgb));
   --text-soft: #4d4841;
   --text-mute: #6d6759;
   --text-faint: #8b8476;
 
-  --ember: #b0512a;
-  --ember-soft: #c9714a;
-  --ember-wash: rgba(176, 81, 42, 0.09);
+  --accent: rgb(var(--accent-rgb));
+  --accent-soft: rgb(var(--accent-soft-rgb));
+  --accent-wash: rgb(var(--accent-rgb) / 0.09);
 
   --moss: #3d4a3b;
   --sand: #c8a97e;
 
-  --on-dark: #f2efe7;
-  --on-dark-soft: rgba(242, 239, 231, 0.72);
-  --on-dark-mute: rgba(242, 239, 231, 0.54);
+  --on-dark: var(--paper);
+  --on-dark-soft: rgb(var(--paper-rgb) / 0.72);
+  --on-dark-mute: rgb(var(--paper-rgb) / 0.54);
 
-  --rule: rgba(23, 21, 15, 0.13);
-  --rule-strong: rgba(23, 21, 15, 0.26);
-  --rule-dark: rgba(242, 239, 231, 0.16);
-  --rule-dark-strong: rgba(242, 239, 231, 0.3);
+  --rule: rgb(var(--text-rgb) / 0.13);
+  --rule-strong: rgb(var(--text-rgb) / 0.26);
+  --rule-dark: rgb(var(--paper-rgb) / 0.16);
+  --rule-dark-strong: rgb(var(--paper-rgb) / 0.3);
 
   --font-display: 'Instrument Serif', 'Times New Roman', ui-serif, serif;
   --font-sans: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

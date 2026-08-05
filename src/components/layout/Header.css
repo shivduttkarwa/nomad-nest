@@ -35,9 +35,9 @@
   opacity: 0;
   background: linear-gradient(
     180deg,
-    rgba(18, 17, 15, 0.75) 0%,
-    rgba(18, 17, 15, 0.42) 52%,
-    rgba(18, 17, 15, 0) 100%
+    rgb(var(--ink-rgb) / 0.75) 0%,
+    rgb(var(--ink-rgb) / 0.42) 52%,
+    rgb(var(--ink-rgb) / 0) 100%
   );
   transition: opacity 0.45s ease;
 }
@@ -65,7 +65,7 @@
 }
 
 .header.is-light .wordmark__text em {
-  color: var(--ember-soft);
+  color: var(--accent-soft);
 }
 
 .header__nav {
@@ -112,7 +112,7 @@
   padding: 0.85em 1.4em;
 }
 .header.is-light .header__cta .btn {
-  --btn-bd: rgba(242, 239, 231, 0.62);
+  --btn-bd: rgb(var(--paper-rgb) / 0.62);
 }
 
 .header__toggle {

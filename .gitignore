@@ -8,3 +8,4 @@ dist-ssr
 *.tsbuildinfo
 
 tmp
+public/ref-images
