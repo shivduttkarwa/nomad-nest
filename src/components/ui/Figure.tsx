@@ -1,7 +1,7 @@
-import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 
 import { useReducedMotion } from '@/hooks'
-import { gsap } from '@/lib/gsap'
+import { SCRUB, THROUGH, gsap } from '@/lib/gsap'
 import { cx, img } from '@/lib/utils'
 import './Figure.css'
 
@@ -9,7 +9,8 @@ type Props = {
   id: string
   alt: string
   ratio?: string
-  parallax?: number
+  /** Share of the frame height the image drifts through. 0 disables. */
+  depth?: number
   width?: number
   className?: string
   priority?: boolean
@@ -21,7 +22,7 @@ export function Figure({
   id,
   alt,
   ratio,
-  parallax = 0,
+  depth = 0.12,
   width = 1600,
   className,
   priority = false,
@@ -33,7 +34,7 @@ export function Figure({
   const reduced = useReducedMotion()
   const [loaded, setLoaded] = useState(false)
 
-  const drifts = parallax !== 0 && !reduced
+  const drifts = depth > 0 && !reduced
 
   useLayoutEffect(() => {
     const scope = ref.current
@@ -42,10 +43,15 @@ export function Figure({
     if (!drifts && !scaleIn) return
 
     const ctx = gsap.context(() => {
-      const trigger = { trigger: scope, start: 'top bottom', end: 'bottom top', scrub: true }
+      const trigger = { trigger: scope, ...THROUGH, scrub: SCRUB, invalidateOnRefresh: true }
+      const travel = () => scope.offsetHeight * depth
 
       if (drifts) {
-        gsap.fromTo(el, { y: -parallax }, { y: parallax, ease: 'none', scrollTrigger: trigger })
+        gsap.fromTo(
+          el,
+          { y: () => -travel() },
+          { y: () => travel(), ease: 'none', scrollTrigger: trigger },
+        )
       }
       if (scaleIn) {
         gsap.fromTo(el, { scale: 1.16 }, { scale: 1, ease: 'none', scrollTrigger: trigger })
@@ -53,14 +59,15 @@ export function Figure({
     }, scope)
 
     return () => ctx.revert()
-  }, [drifts, parallax, scaleIn, reduced])
+  }, [drifts, depth, scaleIn, reduced])
+
+  const style = {
+    ...(ratio ? { aspectRatio: ratio } : null),
+    ...(drifts ? ({ '--fig-overscan': `${depth * 100}%` } as CSSProperties) : null),
+  } as CSSProperties
 
   return (
-    <div
-      ref={ref}
-      className={cx('figure', loaded && 'is-loaded', className)}
-      style={ratio ? { aspectRatio: ratio } : undefined}
-    >
+    <div ref={ref} className={cx('figure', drifts && 'figure--drift', loaded && 'is-loaded', className)} style={style}>
       <img
         ref={imgRef}
         src={img(id, width)}
@@ -69,10 +76,6 @@ export function Figure({
         decoding="async"
         fetchPriority={priority ? 'high' : 'auto'}
         onLoad={() => setLoaded(true)}
-        style={{
-          height: drifts ? `calc(100% + ${parallax * 2}px)` : '100%',
-          top: drifts ? `-${parallax}px` : 0,
-        }}
         draggable={false}
       />
       {children}

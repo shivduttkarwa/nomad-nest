@@ -27,6 +27,7 @@ export function FeaturedJourneys() {
                     id={HOME_IMAGES.journeys[j.slug] ?? j.image}
                     alt={j.title}
                     ratio={i === 1 ? '3 / 4' : '4 / 5'}
+                    depth={0.1 + (i % 3) * 0.05}
                   />
                   <span className="jcard__index mono">{j.index}</span>
                 </div>

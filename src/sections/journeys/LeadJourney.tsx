@@ -8,7 +8,7 @@ export function LeadJourney({ j }: { j: Journey }) {
     <section className="jlead section--tight">
       <div className="shell jlead__inner">
         <Reveal className="jlead__media">
-          <Figure id={j.image} alt={j.title} ratio="4 / 5" parallax={40} />
+          <Figure id={j.image} alt={j.title} ratio="4 / 5" depth={0.16} />
           <span className="jlead__badge mono">Most requested</span>
         </Reveal>
 

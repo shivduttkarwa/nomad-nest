@@ -29,7 +29,12 @@ export function Opening() {
         </div>
 
         <div className="opening__media" ref={targetRef}>
-          <Figure id="1516738901171-8eb4fc13bd20" alt="A wall map stuck with coloured pins" ratio="4 / 5" />
+          <Figure
+            id="1516738901171-8eb4fc13bd20"
+            alt="A wall map stuck with coloured pins"
+            ratio="4 / 5"
+            depth={0.15}
+          />
           <span className="opening__caption mono">The pin wall — one pin per journey, since 2011</span>
         </div>
       </div>

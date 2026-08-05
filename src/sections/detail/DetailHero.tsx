@@ -71,7 +71,7 @@ export function DetailHero({ back, eyebrow, title, lead, meta, image, imageAlt, 
       </div>
 
       <div className="dhero__media" ref={mediaRef}>
-        <Figure id={image} alt={imageAlt} parallax={70} priority width={2400} />
+        <Figure id={image} alt={imageAlt} depth={0.18} priority width={2400} />
       </div>
     </header>
   )

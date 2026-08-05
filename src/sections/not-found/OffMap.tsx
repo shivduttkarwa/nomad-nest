@@ -14,7 +14,7 @@ export function OffMap() {
           id="1500530855697-b586d89ba3ee"
           alt="An empty desert road running toward distant hills"
           priority
-          parallax={50}
+          depth={0.18}
           width={2200}
         />
         <div className="nf__grade" />

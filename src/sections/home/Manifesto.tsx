@@ -19,6 +19,7 @@ export function Manifesto() {
                 id={HOME_IMAGES.studio}
                 alt="The Fitzroy studio — a quiet gallery-like room hung with prints"
                 ratio="3 / 4"
+                depth={0.15}
               />
             </ApertureReveal>
 

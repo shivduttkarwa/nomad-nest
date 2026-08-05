@@ -33,7 +33,7 @@ export function LinkedCards({ index, eyebrow, lines, items, empty }: Props) {
               <Reveal key={item.to} delay={i * 0.08}>
                 <Link to={item.to} className="lcard" data-cursor="view">
                   <div className="lcard__media">
-                    <Figure id={item.image} alt={item.title} ratio="4 / 5" />
+                    <Figure id={item.image} alt={item.title} ratio="4 / 5" depth={0.1 + (i % 3) * 0.05} />
                     <span className="lcard__kicker mono">{item.kicker}</span>
                   </div>
                   <h3 className="display d4">{item.title}</h3>

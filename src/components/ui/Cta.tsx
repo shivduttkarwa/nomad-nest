@@ -16,7 +16,7 @@ export function Cta({ image = '1444927714506-8492d94b4e3d' }: Props) {
         <Figure
           id={image}
           alt="Layered ridgelines fading into morning haze"
-          parallax={90}
+          depth={0.2}
           width={2400}
         />
       </div>

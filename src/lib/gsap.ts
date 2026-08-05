@@ -11,6 +11,11 @@ export const EASE_OUT = 'expo.out'
 export const EASE_IN_OUT = 'expo.inOut'
 export const EASE_SOFT = 'power3.out'
 
+export const SCRUB = 1.1
+export const SCRUB_TIGHT = 0.6
+
+export const THROUGH = { start: 'top bottom', end: 'bottom top' } as const
+
 export function startAt(amount: number) {
   return `top ${Math.round((1 - amount) * 100)}%`
 }

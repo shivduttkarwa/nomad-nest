@@ -1,7 +1,7 @@
 import { Fragment, useLayoutEffect, useRef, useState, type ElementType, type ReactNode } from 'react'
 
 import { useReducedMotion } from '@/hooks'
-import { EASE_OUT, ScrollTrigger, SplitText, gsap, startAt } from '@/lib/gsap'
+import { EASE_OUT, SCRUB, SCRUB_TIGHT, ScrollTrigger, SplitText, THROUGH, gsap, startAt } from '@/lib/gsap'
 import { cx } from '@/lib/utils'
 import './Motion.css'
 
@@ -144,7 +144,7 @@ export function WordReveal({ text, className }: { text: string; className?: stri
                 trigger: el,
                 start: 'top 90%',
                 end: 'top 50%',
-                scrub: true,
+                scrub: SCRUB_TIGHT,
               },
             },
           )
@@ -219,7 +219,7 @@ export function useParallax(distance = 60) {
         {
           y: -distance,
           ease: 'none',
-          scrollTrigger: { trigger: scope, start: 'top bottom', end: 'bottom top', scrub: true },
+          scrollTrigger: { trigger: scope, ...THROUGH, scrub: SCRUB, invalidateOnRefresh: true },
         },
       )
     }, scope)

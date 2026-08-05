@@ -38,8 +38,8 @@ export function DestinationCatalogue({ list, view }: { list: Destination[]; view
       <div className="shell" ref={scopeRef}>
         {view === 'grid' ? (
           <div className="dgrid">
-            {list.map((d) => (
-              <DestinationCard key={d.slug} d={d} />
+            {list.map((d, i) => (
+              <DestinationCard key={d.slug} d={d} i={i} />
             ))}
           </div>
         ) : (

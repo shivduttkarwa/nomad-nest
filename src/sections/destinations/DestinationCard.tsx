@@ -5,7 +5,7 @@ import type { Destination } from '@/data/destinations'
 import { cx, money } from '@/lib/utils'
 import './DestinationCard.css'
 
-export function DestinationCard({ d }: { d: Destination }) {
+export function DestinationCard({ d, i = 0 }: { d: Destination; i?: number }) {
   return (
     <article className={cx('dcard', d.orientation === 'portrait' && 'dcard--tall')}>
       <Link to={`/destinations/${d.slug}`} className="dcard__link" data-cursor="view">
@@ -14,6 +14,7 @@ export function DestinationCard({ d }: { d: Destination }) {
             id={d.image}
             alt={`${d.name}, ${d.country}`}
             ratio={d.orientation === 'portrait' ? '3 / 4' : '5 / 4'}
+            depth={0.1 + (i % 3) * 0.05}
           />
           <span className="dcard__coords mono">{d.coords}</span>
         </div>

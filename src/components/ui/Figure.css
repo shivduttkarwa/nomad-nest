@@ -15,6 +15,12 @@
   transition: opacity 1s var(--ease-out);
   will-change: transform;
 }
+
+/* Oversize the image inside its frame so the drift never exposes an edge. */
+.figure--drift img {
+  top: calc(var(--fig-overscan) * -1);
+  height: calc(100% + var(--fig-overscan) * 2);
+}
 .figure.is-loaded img {
   opacity: 1;
 }

@@ -21,7 +21,13 @@ export function Journal() {
           {journal.map((p, i) => (
             <Reveal key={p.slug} delay={i * 0.08}>
               <Link to={`/journal/${p.slug}`} className="post" data-cursor="view">
-                <Figure id={HOME_IMAGES.journal[i] ?? p.image} alt={p.title} ratio="16 / 11" className="post__media" />
+                <Figure
+                  id={HOME_IMAGES.journal[i] ?? p.image}
+                  alt={p.title}
+                  ratio="16 / 11"
+                  depth={0.09 + (i % 3) * 0.04}
+                  className="post__media"
+                />
                 <div className="post__meta">
                   <Tag>{p.kicker}</Tag>
                   <span className="mono">
