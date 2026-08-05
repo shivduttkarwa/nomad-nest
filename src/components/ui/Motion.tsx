@@ -1,10 +1,15 @@
-import { useEffect, useRef, useState, type ElementType, type ReactNode } from 'react'
+import { Fragment, useEffect, useRef, useState, type ElementType, type ReactNode } from 'react'
 import { motion, useInView, useScroll, useTransform, type MotionValue } from 'framer-motion'
+import gsap from 'gsap'
+import { SplitText } from 'gsap/SplitText'
 import { cx } from '@/lib/utils'
 import { useReducedMotion } from '@/hooks'
 import './Motion.css'
 
+gsap.registerPlugin(SplitText)
+
 const EASE = [0.16, 1, 0.3, 1] as const
+const HIDDEN = 150
 
 export function Reveal({
   children,
@@ -51,22 +56,61 @@ export function Lines({
   as?: ElementType
 }) {
   const ref = useRef<HTMLElement>(null)
+  const split = useRef<SplitText | null>(null)
+  const done = useRef(false)
+  const reduced = useReducedMotion()
   const seen = useInView(ref, { once: true, amount: 0.35 })
-  const inView = seen && play
+  const shouldPlay = seen && play && !reduced
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el || reduced) return
+
+    const instance = SplitText.create(el, {
+      type: 'lines',
+      mask: 'lines',
+      linesClass: 'lines__line',
+      autoSplit: true,
+      onSplit: (self) => {
+        gsap.set(self.lines, { yPercent: done.current ? 0 : HIDDEN })
+      },
+    })
+
+    split.current = instance
+    return () => {
+      instance.revert()
+      split.current = null
+    }
+  }, [reduced])
+
+  useEffect(() => {
+    if (!shouldPlay || done.current) return
+    const instance = split.current
+    if (!instance) return
+
+    const tween = gsap.to(instance.lines, {
+      yPercent: 0,
+      duration: 1.15,
+      ease: 'expo.out',
+      stagger,
+      delay,
+      onComplete: () => {
+        done.current = true
+      },
+    })
+
+    return () => {
+      tween.kill()
+    }
+  }, [shouldPlay, stagger, delay])
 
   return (
     <Tag ref={ref} className={cx('lines', className)}>
       {lines.map((line, i) => (
-        <span className="lines__mask" key={i}>
-          <motion.span
-            className="lines__line"
-            initial={{ y: '150%' }}
-            animate={inView ? { y: '0%' } : undefined}
-            transition={{ duration: 1.05, ease: EASE, delay: delay + i * stagger }}
-          >
-            {line}
-          </motion.span>
-        </span>
+        <Fragment key={i}>
+          {i > 0 && <br />}
+          {line}
+        </Fragment>
       ))}
     </Tag>
   )

@@ -12,6 +12,7 @@ import './Hero.css'
 const SLIDE_MS = 6200
 const WIPE_S = 1.5
 const INTRO = 1.1
+const CONTENT = INTRO + 0.95
 
 const SLIDES = [
   {
@@ -104,7 +105,7 @@ export function Hero() {
         className="hero__dots"
         initial={{ opacity: 0, x: 24 }}
         animate={ready ? { opacity: 1, x: 0 } : undefined}
-        transition={{ duration: 0.9, ease: EASE_OUT, delay: INTRO + 1.2 }}
+        transition={{ duration: 0.9, ease: EASE_OUT, delay: CONTENT + 0.85 }}
       >
         {SLIDES.map((s, i) => (
           <button
@@ -134,7 +135,7 @@ export function Hero() {
           as="h1"
           className="display hero__title"
           play={ready}
-          delay={INTRO + 0.35}
+          delay={CONTENT}
           stagger={0.12}
           lines={[
             <>Journeys designed</>,
@@ -149,7 +150,7 @@ export function Hero() {
             className="lead"
             initial={{ opacity: 0, y: 26 }}
             animate={ready ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: 1, ease: EASE_OUT, delay: INTRO + 0.8 }}
+            transition={{ duration: 1, ease: EASE_OUT, delay: CONTENT + 0.45 }}
           >
             Roughly a hundred trips a year, written by hand for people who would rather see one valley properly than
             six countries badly.
@@ -158,7 +159,7 @@ export function Hero() {
             className="hero__actions"
             initial={{ opacity: 0, y: 26 }}
             animate={ready ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: 1, ease: EASE_OUT, delay: INTRO + 0.95 }}
+            transition={{ duration: 1, ease: EASE_OUT, delay: CONTENT + 0.6 }}
           >
             <Btn to="/journeys" tone="paper" size="lg">
               See our journeys
@@ -172,7 +173,7 @@ export function Hero() {
         className="hero__bar shell"
         initial={{ opacity: 0, y: 18 }}
         animate={ready ? { opacity: 1, y: 0 } : undefined}
-        transition={{ duration: 0.9, ease: EASE_OUT, delay: INTRO + 1.1 }}
+        transition={{ duration: 0.9, ease: EASE_OUT, delay: CONTENT + 0.75 }}
       >
         <div className="hero__barcell">
           <span className="mono">Currently mapping</span>
