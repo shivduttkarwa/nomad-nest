@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import { Figure, Tag } from '@/components/ui'
 import type { Destination } from '@/data/destinations'
 import { cx, money } from '@/lib/utils'
@@ -6,7 +8,7 @@ import './DestinationCard.css'
 export function DestinationCard({ d }: { d: Destination }) {
   return (
     <article className={cx('dcard', d.orientation === 'portrait' && 'dcard--tall')}>
-      <a href="#" className="dcard__link" data-cursor="view">
+      <Link to={`/destinations/${d.slug}`} className="dcard__link" data-cursor="view">
         <div className="dcard__media">
           <Figure
             id={d.image}
@@ -36,7 +38,7 @@ export function DestinationCard({ d }: { d: Destination }) {
             {d.nights} nights · from {money(d.from)}
           </span>
         </div>
-      </a>
+      </Link>
     </article>
   )
 }

@@ -1,0 +1,28 @@
+.jpost__inner {
+  max-width: none;
+}
+.jpost__inner p {
+  max-width: 66ch;
+  margin-inline: auto;
+  font-size: var(--fs-lead);
+  line-height: 1.6;
+  color: var(--text-soft);
+}
+.jpost__inner p + p {
+  margin-top: 1.35rem;
+}
+
+.jpost__next {
+  border-top: 1px solid var(--rule);
+}
+.jpost__nextlink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  margin-top: 1.25rem;
+  transition: color 0.4s var(--ease-out), gap 0.5s var(--ease-out);
+}
+.jpost__nextlink:hover {
+  color: var(--accent);
+  gap: 2rem;
+}

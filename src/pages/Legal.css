@@ -1,0 +1,65 @@
+.legal__head {
+  padding-top: calc(var(--header-h) + clamp(2.5rem, 6vw, 5rem));
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--rule);
+}
+.legal__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--rule);
+}
+.legal__updated {
+  color: var(--text-faint);
+}
+.legal__title {
+  margin-top: clamp(1.5rem, 3.5vw, 2.75rem);
+  max-width: 16ch;
+}
+.legal__intro {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+.legal__intro .lead {
+  max-width: 56ch;
+}
+
+.legal__inner {
+  max-width: 72ch;
+  margin-inline: auto;
+}
+.legal__block + .legal__block {
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+.legal__block h2 {
+  margin-bottom: 1rem;
+}
+.legal__block p {
+  color: var(--text-soft);
+}
+.legal__block p + p {
+  margin-top: 1rem;
+}
+
+.legal__nav {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--rule);
+}
+.legal__nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  margin-top: 1.25rem;
+}
+.legal__nav a {
+  font-size: var(--fs-lead);
+  padding-bottom: 0.2em;
+  border-bottom: 1px solid var(--rule-strong);
+  transition: color 0.35s ease, border-color 0.35s ease;
+}
+.legal__nav a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}

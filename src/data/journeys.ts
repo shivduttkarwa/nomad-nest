@@ -6,6 +6,7 @@ export type Journey = {
   title: string
   subtitle: string
   places: string
+  destinations: string[]
   nights: number
   from: number
   pace: Pace
@@ -27,6 +28,7 @@ export const journeys: Journey[] = [
     title: 'The Slow North',
     subtitle: 'Kyoto · Kanazawa · the Noto coast · Tokyo',
     places: 'Japan',
+    destinations: ['kyoto', 'tokyo'],
     nights: 14,
     from: 12400,
     pace: 'Gentle',
@@ -83,6 +85,7 @@ export const journeys: Journey[] = [
     title: 'Salt, Stone & Cypress',
     subtitle: 'The Dolomites · Val d\'Orcia · the Ligurian coast',
     places: 'Italy',
+    destinations: ['dolomites', 'val-dorcia', 'cinque-terre'],
     nights: 12,
     from: 10800,
     pace: 'Balanced',
@@ -129,6 +132,7 @@ export const journeys: Journey[] = [
     title: 'Follow the Herds',
     subtitle: 'Serengeti · Ngorongoro · Amboseli',
     places: 'Tanzania & Kenya',
+    destinations: ['serengeti', 'amboseli'],
     nights: 11,
     from: 21600,
     pace: 'Balanced',
@@ -174,6 +178,7 @@ export const journeys: Journey[] = [
     title: 'Thin Air',
     subtitle: 'Kathmandu · Namche · Tengboche · Khumjung',
     places: 'Nepal',
+    destinations: ['khumbu'],
     nights: 15,
     from: 9800,
     pace: 'Active',
@@ -224,6 +229,7 @@ export const journeys: Journey[] = [
     title: 'The Long Coast',
     subtitle: 'Carmel · Big Sur · Santa Lucia · Point Reyes',
     places: 'California',
+    destinations: ['big-sur'],
     nights: 9,
     from: 8600,
     pace: 'Gentle',
@@ -269,6 +275,7 @@ export const journeys: Journey[] = [
     title: 'Islands of the Aegean',
     subtitle: 'Santorini · Folegandros · Milos · Sifnos',
     places: 'Greece',
+    destinations: ['santorini'],
     nights: 10,
     from: 9200,
     pace: 'Gentle',

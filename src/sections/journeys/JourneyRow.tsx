@@ -1,4 +1,4 @@
-import { Btn, Collapse, Figure, Tag } from '@/components/ui'
+import { ArrowLink, Btn, Collapse, Figure, Tag } from '@/components/ui'
 import type { Journey } from '@/data/journeys'
 import { cx, money } from '@/lib/utils'
 import './JourneyRow.css'
@@ -75,7 +75,8 @@ export function JourneyRow({ j, open, onToggle }: Props) {
             </ul>
 
             <div className="jrow__cta">
-              <Btn to="/contact">Enquire — {j.title}</Btn>
+              <Btn to={`/journeys/${j.slug}`}>Read the full journey</Btn>
+              <ArrowLink to="/contact">Enquire — {j.title}</ArrowLink>
               <span className="mono">Planning fee $600, credited in full</span>
             </div>
           </div>

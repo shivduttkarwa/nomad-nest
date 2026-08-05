@@ -21,7 +21,7 @@ export function FeaturedJourneys() {
         <div className="fjourneys__grid">
           {featuredJourneys.map((j, i) => (
             <Reveal key={j.slug} delay={i * 0.09} className={cx('fjourneys__cell', `fjourneys__cell--${i}`)}>
-              <Link to="/journeys" className="jcard" data-cursor="view">
+              <Link to={`/journeys/${j.slug}`} className="jcard" data-cursor="view">
                 <div className="jcard__media">
                   <Figure
                     id={HOME_IMAGES.journeys[j.slug] ?? j.image}

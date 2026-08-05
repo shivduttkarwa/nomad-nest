@@ -50,7 +50,7 @@ export function LeadJourney({ j }: { j: Journey }) {
             </ul>
 
             <div className="jlead__actions">
-              <Btn to="/contact">Enquire about this journey</Btn>
+              <Btn to={`/journeys/${j.slug}`}>Read the full journey</Btn>
               <ArrowLink href="#journeys">See all six</ArrowLink>
             </div>
           </Reveal>

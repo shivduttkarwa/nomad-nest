@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import type { Destination } from '@/data/destinations'
 import { img, money, pad } from '@/lib/utils'
 import './DestinationRow.css'
@@ -5,7 +7,7 @@ import './DestinationRow.css'
 export function DestinationRow({ d, i }: { d: Destination; i: number }) {
   return (
     <li className="drow">
-      <a href="#" className="drow__link" data-cursor="view">
+      <Link to={`/destinations/${d.slug}`} className="drow__link" data-cursor="view">
         <span className="drow__num mono">{pad(i + 1)}</span>
         <span className="drow__thumb">
           <img src={img(d.image, 400)} alt="" loading="lazy" />
@@ -21,7 +23,7 @@ export function DestinationRow({ d, i }: { d: Destination; i: number }) {
             <path d="M2 14L14 2M14 2H5M14 2v9" stroke="currentColor" strokeWidth="1.3" />
           </svg>
         </span>
-      </a>
+      </Link>
     </li>
   )
 }

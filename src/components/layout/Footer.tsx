@@ -144,9 +144,9 @@ export function Footer() {
             © {year} {site.name} Pty Ltd. ATAS accredited A10482.
           </span>
           <span className="footer__legal-links">
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Booking conditions</a>
+            <Link to="/legal/privacy">Privacy</Link>
+            <Link to="/legal/terms">Terms</Link>
+            <Link to="/legal/booking-conditions">Booking conditions</Link>
           </span>
           <span className="mono">Designed in Fitzroy</span>
         </div>

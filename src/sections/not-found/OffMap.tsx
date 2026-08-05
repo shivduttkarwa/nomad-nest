@@ -39,7 +39,7 @@ export function OffMap() {
           <ul className="nf__links">
             {suggestions.map((d) => (
               <li key={d.slug}>
-                <Link to="/destinations">
+                <Link to={`/destinations/${d.slug}`}>
                   <span className="display d5">{d.name}</span>
                   <span className="mono">{d.country}</span>
                 </Link>

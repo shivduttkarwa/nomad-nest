@@ -163,6 +163,13 @@ export const testimonials = [
 
 export const journal = [
   {
+    slug: 'the-case-for-staying-put',
+    body: [
+      "For years we wrote what the industry writes: a fortnight, nine stops, a coach at seven every second morning. Clients came home with four hundred photographs and no memory of standing still anywhere.",
+      "So in 2019 we set a rule. No stay shorter than three nights unless it exists only to break a long transfer. It cost us bookings in the first season — a trip with five stops looks worse on paper than one with nine, because paper counts places rather than mornings.",
+      "What changed was the second half of the reviews. People stopped listing what they had seen and started describing a particular baker, a walk they repeated three days running, the way the light came off a wall at six. The trips got quieter and the writing about them got better.",
+      "The arithmetic is unglamorous. A three-night stay buys you two full days; a two-night stay buys you none, because the first afternoon goes on arrival and the last morning goes on leaving. Half of a nine-stop fortnight is spent in transit and the other half is spent recovering from it.",
+    ],
     kicker: 'Field notes',
     title: 'The case for staying put',
     text: 'Why we stopped writing itineraries with more than five stops, and what happened to the reviews when we did.',
@@ -171,6 +178,14 @@ export const journal = [
     image: '1441974231531-c6227db76b6e',
   },
   {
+    slug: 'shoulder-season-properly-explained',
+    body: [
+      "Shoulder season is sold as a compromise: cheaper, quieter, slightly worse. In four of the places we write most often it is simply better, and the pricing has not caught up.",
+      "The Dolomites in late September have the summer trail network still open, the huts still staffed, and none of the August queues on the via ferrata. The first snow usually holds off until the second week of October.",
+      "Kyoto in the last week of November is the exception that proves the rule — that is peak, and it deserves to be. The window worth booking is the first fortnight of December, when the maples are past but the temples are empty and the light is low all day.",
+      "The Serengeti between the long and short rains, roughly late March, is the one most people are talked out of. The herds are calving, the grass is green, the light is enormous, and the camps are half the price. You will get wet in the afternoons.",
+      "Big Sur in February has whales going north, no fog, and a road that nobody is queuing on. Book a room with a fire.",
+    ],
     kicker: 'Guides',
     title: 'Shoulder season, properly explained',
     text: 'The two-week windows either side of peak that almost nobody books — and the four places where they are genuinely better.',
@@ -179,6 +194,14 @@ export const journal = [
     image: '1490750967868-88aa4486c946',
   },
   {
+    slug: 'forty-years-on-the-same-mountain',
+    body: [
+      "Pemba Sherpa first carried to Everest Base Camp in 1984, at seventeen, for a Japanese expedition that did not summit. He has walked the Khumbu every season since, first as a porter, then a guide, and for the last decade as the man who trains ours.",
+      "We asked what has changed. \"The bridges,\" he said, without pausing. \"When I started we crossed on wood, and in the monsoon sometimes you waited two days. Now there is steel everywhere and nobody waits. That is the biggest change and nobody writes about it.\"",
+      "And the trekkers? \"Fitter. Much fitter, and much worse at being cold. They train for the walking, they do not train for sitting still at four thousand metres with wet socks.\"",
+      "On what has not changed: \"The mountain does not know you are coming. People think because there is a lodge and a menu that something has been arranged for them. Nothing has been arranged. The weather is the same weather.\"",
+      "He is sixty now and walks to Namche in a day, which takes most of our clients two. He says he will stop when the bridges wash out again.",
+    ],
     kicker: 'Interview',
     title: 'Forty years on the same mountain',
     text: 'Pemba Sherpa has walked the Khumbu since 1984. We asked what has changed, and what has not.',
