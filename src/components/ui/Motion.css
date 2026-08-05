@@ -1,0 +1,25 @@
+.lines {
+  display: block;
+}
+.lines__mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+.lines__line {
+  display: block;
+  will-change: transform;
+}
+
+.wordreveal {
+  margin: 0;
+}
+.wordreveal__word {
+  display: inline-block;
+  white-space: pre;
+}
+
+.counter {
+  font-variant-numeric: tabular-nums;
+}

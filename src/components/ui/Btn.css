@@ -1,0 +1,150 @@
+.btn-magnet {
+  display: inline-block;
+  will-change: transform;
+}
+
+.btn {
+  --btn-bg: var(--ink);
+  --btn-fg: var(--paper);
+  --btn-bd: var(--ink);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85em;
+  padding: 1.05em 1.75em;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--btn-bd);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-size: var(--fs-sm);
+  font-weight: 450;
+  letter-spacing: -0.005em;
+  line-height: 1;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.45s var(--ease-out), border-color 0.45s var(--ease-out);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--ember);
+  border-radius: inherit;
+  transform: scaleY(0);
+  transform-origin: 50% 100%;
+  transition: transform 0.6s var(--ease-out);
+  z-index: -1;
+}
+.btn:hover::before {
+  transform: scaleY(1);
+}
+.btn:hover {
+  color: var(--paper);
+  border-color: var(--ember);
+}
+
+.btn--lg {
+  padding: 1.25em 2.1em;
+  font-size: var(--fs-body);
+}
+
+.btn--outline {
+  --btn-bg: transparent;
+  --btn-fg: currentColor;
+  --btn-bd: var(--rule-strong);
+}
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: currentColor;
+  --btn-bd: transparent;
+  padding-inline: 0.2em;
+}
+.btn--paper {
+  --btn-bg: var(--paper);
+  --btn-fg: var(--ink);
+  --btn-bd: var(--paper);
+}
+.btn--ember {
+  --btn-bg: var(--ember);
+  --btn-fg: var(--paper);
+  --btn-bd: var(--ember);
+}
+.btn--ember::before {
+  background: var(--ink);
+}
+.btn--full {
+  width: 100%;
+  justify-content: center;
+}
+.btn:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.btn__label {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  height: 1.1em;
+}
+.btn__label-a,
+.btn__label-b {
+  display: block;
+  transition: transform 0.55s var(--ease-out);
+}
+.btn__label-b {
+  position: absolute;
+  inset: 0;
+  transform: translateY(105%);
+}
+.btn:hover .btn__label-a {
+  transform: translateY(-115%);
+}
+.btn:hover .btn__label-b {
+  transform: translateY(0);
+}
+
+.btn__arrow {
+  display: grid;
+  place-items: center;
+  transition: transform 0.5s var(--ease-out);
+}
+.btn:hover .btn__arrow {
+  transform: translate(3px, -3px);
+}
+
+.arrowlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  font-size: var(--fs-sm);
+  padding-bottom: 0.35em;
+  position: relative;
+  color: inherit;
+}
+.arrowlink::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.35;
+  transform-origin: 100% 50%;
+  transform: scaleX(1);
+  transition: transform 0.5s var(--ease-out);
+}
+.arrowlink:hover::after {
+  transform-origin: 0 50%;
+  transform: scaleX(0.28);
+  opacity: 1;
+}
+.arrowlink__icon {
+  transition: transform 0.5s var(--ease-out);
+}
+.arrowlink:hover .arrowlink__icon {
+  transform: translateX(5px);
+}

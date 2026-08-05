@@ -1,0 +1,72 @@
+.team__note {
+  font-size: var(--fs-sm);
+  color: var(--text-mute);
+  max-width: 32ch;
+}
+.team__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+.team__cell {
+  position: relative;
+  background: var(--paper);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  min-height: 15rem;
+  transition: background-color 0.5s var(--ease-out);
+}
+.team__cell:hover {
+  background: var(--paper-2);
+}
+.team__monogram {
+  display: grid;
+  place-items: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  border: 1px solid var(--rule-strong);
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  color: var(--text-soft);
+  transition: background-color 0.5s var(--ease-out), color 0.4s ease, border-color 0.4s ease;
+}
+.team__cell:hover .team__monogram {
+  background: var(--ember);
+  border-color: var(--ember);
+  color: var(--paper);
+}
+.team__info {
+  margin-top: auto;
+}
+.team__role {
+  margin-top: 0.4rem;
+  color: var(--text-soft);
+  font-size: var(--fs-sm);
+}
+.team__meta {
+  margin-top: 0.65rem;
+  color: var(--text-faint);
+}
+.team__num {
+  position: absolute;
+  top: clamp(1.5rem, 3vw, 2.5rem);
+  right: clamp(1.5rem, 3vw, 2.5rem);
+  color: var(--text-faint);
+}
+
+@media (max-width: 1024px) {
+  .team__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .team__grid {
+    grid-template-columns: 1fr;
+  }
+}

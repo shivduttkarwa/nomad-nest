@@ -1,0 +1,76 @@
+.fjourneys__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
+.fjourneys__cell--1 {
+  margin-top: clamp(2rem, 6vw, 6rem);
+}
+.fjourneys__cell--2 {
+  margin-top: clamp(1rem, 3vw, 3rem);
+}
+
+.jcard {
+  display: block;
+}
+.jcard__media {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.jcard__media .figure img {
+  transition: transform 1.2s var(--ease-out), opacity 1s var(--ease-out);
+}
+.jcard:hover .jcard__media .figure img {
+  transform: scale(1.06);
+}
+.jcard__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+.jcard:hover .jcard__media::after {
+  opacity: 0.12;
+}
+.jcard__index {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
+  color: var(--paper);
+  mix-blend-mode: difference;
+}
+.jcard__body h3 {
+  transition: color 0.4s var(--ease-out);
+}
+.jcard:hover .jcard__body h3 {
+  color: var(--ember);
+}
+.jcard__sub {
+  margin-top: 0.5rem;
+  color: var(--text-mute);
+  font-size: var(--fs-sm);
+}
+.jcard__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  color: var(--text-faint);
+}
+
+@media (max-width: 900px) {
+  .fjourneys__grid {
+    grid-template-columns: 1fr;
+  }
+  .fjourneys__cell--1,
+  .fjourneys__cell--2 {
+    margin-top: 0;
+  }
+}

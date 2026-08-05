@@ -1,0 +1,34 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.filters__btn {
+  position: relative;
+  padding: 0.6em 1.15em;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-sm);
+  color: var(--text-mute);
+  isolation: isolate;
+  transition: color 0.4s var(--ease-out);
+  white-space: nowrap;
+}
+.filters__btn:hover {
+  color: var(--text);
+}
+.filters__btn.is-active {
+  color: var(--paper);
+}
+.filters__pill {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  border-radius: var(--radius-pill);
+  z-index: -1;
+}
+.on-dark .filters__btn.is-active {
+  color: var(--ink);
+}
+.on-dark .filters__pill {
+  background: var(--paper);
+}

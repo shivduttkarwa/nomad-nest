@@ -1,0 +1,87 @@
+.cta {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(6rem, 13vw, 14rem) clamp(2rem, 4vw, 4rem);
+}
+.cta__bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+}
+.cta__bg .figure {
+  height: 100%;
+  background: var(--ink);
+}
+.cta__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--ink) 0%, rgba(18, 17, 15, 0.4) 40%, var(--ink) 100%);
+}
+.cta__inner {
+  position: relative;
+  z-index: 2;
+}
+.cta__title {
+  margin-top: 1.5rem;
+  max-width: 16ch;
+}
+.cta__title em {
+  color: var(--ember-soft);
+}
+.cta__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  align-items: end;
+}
+.cta__body .lead {
+  max-width: 44ch;
+}
+.cta__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  justify-self: end;
+}
+.cta__mail {
+  font-size: var(--fs-sm);
+  color: var(--on-dark-soft);
+  border-bottom: 1px solid var(--rule-dark);
+  padding-bottom: 0.25em;
+  transition: color 0.35s ease, border-color 0.35s ease;
+}
+.cta__mail:hover {
+  color: var(--on-dark);
+  border-color: var(--on-dark);
+}
+.cta__marquee {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(4rem, 9vw, 9rem);
+}
+.cta__ribbon {
+  font-size: clamp(3rem, 9vw, 8rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: rgba(242, 239, 231, 0.12);
+  padding-right: 0.3em;
+  white-space: nowrap;
+}
+.cta__ribbon i {
+  font-style: normal;
+  color: var(--ember);
+  opacity: 0.65;
+}
+
+@media (max-width: 900px) {
+  .cta__body {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  .cta__actions {
+    justify-self: start;
+  }
+}

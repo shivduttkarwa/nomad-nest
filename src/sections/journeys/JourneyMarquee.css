@@ -1,0 +1,16 @@
+.jmarquee {
+  padding-block: clamp(2.5rem, 6vw, 5rem);
+  border-block: 1px solid var(--rule);
+}
+.jmarquee__text {
+  font-size: clamp(2.2rem, 6vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--text-faint);
+  padding-right: 0.3em;
+  white-space: nowrap;
+}
+.jmarquee__text i {
+  font-style: normal;
+  color: var(--ember);
+}

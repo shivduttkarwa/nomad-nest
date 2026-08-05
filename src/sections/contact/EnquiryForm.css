@@ -1,0 +1,308 @@
+.enquiry {
+  border: 1px solid var(--rule);
+  padding: clamp(1.5rem, 3.5vw, 3rem);
+  background: linear-gradient(180deg, var(--paper-2) 0%, var(--paper) 42%);
+}
+.enquiry__steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding-bottom: 1.1rem;
+}
+.enquiry__step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: left;
+  color: var(--text-faint);
+  transition: color 0.4s ease;
+  cursor: default;
+}
+.enquiry__step.is-done {
+  cursor: pointer;
+  color: var(--text-mute);
+}
+.enquiry__step.is-active {
+  color: var(--text);
+}
+.enquiry__step .mono {
+  font-size: var(--fs-micro);
+}
+.enquiry__steplabel {
+  font-size: var(--fs-sm);
+}
+.enquiry__track {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--rule);
+}
+.enquiry__track i {
+  display: block;
+  height: 100%;
+  background: var(--ember);
+  transform-origin: 0 50%;
+}
+.enquiry__hint {
+  color: var(--text-mute);
+  margin-top: 1.35rem;
+}
+.enquiry__stage {
+  margin-top: 2rem;
+  min-height: 20rem;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.field--full {
+  grid-column: 1 / -1;
+}
+.field__label {
+  font-size: var(--fs-sm);
+  color: var(--text-soft);
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.field__label i {
+  font-style: normal;
+  color: var(--text-faint);
+  font-size: var(--fs-xs);
+}
+.field__label b {
+  font-weight: 500;
+  color: var(--ember);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+}
+.field input:not(.range),
+.field textarea,
+.select select {
+  width: 100%;
+  border-bottom: 1px solid var(--rule-strong);
+  padding-bottom: 0.7rem;
+  font-size: var(--fs-lead);
+  transition: border-color 0.35s ease;
+}
+.field input:not(.range):focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--ember);
+}
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--text-faint);
+}
+.field textarea {
+  resize: vertical;
+  min-height: 8rem;
+  line-height: 1.5;
+}
+.field__scale {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-faint);
+}
+
+.select {
+  position: relative;
+  display: block;
+}
+.select select {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 1.5rem;
+}
+.select svg {
+  position: absolute;
+  right: 0;
+  top: 0.6em;
+  pointer-events: none;
+  color: var(--text-mute);
+}
+
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 22px;
+  background: transparent;
+  cursor: pointer;
+}
+.range::-webkit-slider-runnable-track {
+  height: 1px;
+  background: var(--rule-strong);
+}
+.range::-moz-range-track {
+  height: 1px;
+  background: var(--rule-strong);
+}
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ink);
+  margin-top: -7.5px;
+  transition: transform 0.3s var(--ease-out), background-color 0.3s ease;
+}
+.range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 50%;
+  background: var(--ink);
+}
+.range:hover::-webkit-slider-thumb,
+.range:focus::-webkit-slider-thumb {
+  background: var(--ember);
+  transform: scale(1.2);
+}
+.range:hover::-moz-range-thumb {
+  background: var(--ember);
+}
+
+.chips {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.chips__set {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.6em 1.05em;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-sm);
+  color: var(--text-soft);
+  transition: background-color 0.4s var(--ease-out), color 0.35s ease, border-color 0.35s ease;
+}
+.chip__country {
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  transition: color 0.35s ease;
+}
+.chip:hover {
+  border-color: var(--rule-strong);
+  color: var(--text);
+}
+.chip.is-on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+.chip.is-on .chip__country {
+  color: rgba(242, 239, 231, 0.5);
+}
+
+.enquiry__summary {
+  grid-column: 1 / -1;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+.enquiry__summary h4 {
+  margin-bottom: 1.25rem;
+}
+.enquiry__summary dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem 2rem;
+}
+.enquiry__summary dt {
+  color: var(--text-faint);
+  margin-bottom: 0.35rem;
+}
+.enquiry__summary dd {
+  font-size: var(--fs-sm);
+}
+
+.enquiry__error {
+  margin-top: 1.25rem;
+  color: var(--ember);
+}
+.enquiry__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2.25rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--rule);
+}
+.enquiry__back {
+  font-size: var(--fs-sm);
+  color: var(--text-mute);
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid transparent;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+.enquiry__back:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--rule-strong);
+}
+.enquiry__back:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.enquiry__legal {
+  margin-top: 1.25rem;
+  color: var(--text-faint);
+}
+
+.enquiry--done {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  min-height: 26rem;
+  justify-content: center;
+}
+.enquiry--done p.display {
+  max-width: 20ch;
+}
+.enquiry--done em {
+  color: var(--ember);
+}
+.enquiry--done .muted {
+  max-width: 46ch;
+  font-size: var(--fs-sm);
+}
+.enquiry--done a {
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+@media (max-width: 640px) {
+  .field-grid,
+  .enquiry__summary dl {
+    grid-template-columns: 1fr;
+  }
+  .enquiry__steps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.25rem;
+  }
+  .enquiry__steplabel {
+    font-size: var(--fs-xs);
+  }
+}

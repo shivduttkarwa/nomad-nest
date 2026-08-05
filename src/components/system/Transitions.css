@@ -1,0 +1,24 @@
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-transition);
+  pointer-events: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+.curtain__panel {
+  background: var(--ink);
+  transform-origin: 50% 0%;
+  will-change: transform;
+}
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--ember);
+  transform-origin: 0 50%;
+  z-index: calc(var(--z-header) + 1);
+}

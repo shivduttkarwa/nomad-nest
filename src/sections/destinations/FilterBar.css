@@ -1,0 +1,64 @@
+.dbar {
+  position: sticky;
+  top: 0;
+  z-index: calc(var(--z-header) - 1);
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  padding-top: var(--header-h);
+  margin-top: clamp(3rem, 6vw, 5rem);
+}
+.dbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 0.9rem;
+  flex-wrap: wrap;
+}
+.dbar__right {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.75rem);
+}
+.dbar__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  position: relative;
+  color: var(--text-mute);
+}
+.dbar__sort select {
+  font-size: var(--fs-sm);
+  color: var(--text);
+  padding-right: 1.1rem;
+  appearance: none;
+  cursor: pointer;
+}
+.dbar__sort svg {
+  position: absolute;
+  right: 0;
+  pointer-events: none;
+  color: var(--text-mute);
+}
+.dbar__view {
+  display: inline-flex;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.dbar__view button {
+  width: 38px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: var(--text-faint);
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+.dbar__view button.is-active {
+  background: var(--ink);
+  color: var(--paper);
+}
+.dbar__count {
+  color: var(--text-faint);
+  white-space: nowrap;
+}

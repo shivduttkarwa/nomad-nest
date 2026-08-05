@@ -1,0 +1,27 @@
+.jincl__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(2rem, 3.5vw, 3.5rem) clamp(1.5rem, 3vw, 3rem);
+}
+.jincl__cell {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule-dark);
+}
+.jincl__cell p {
+  margin-top: 0.9rem;
+  color: var(--on-dark-soft);
+  font-size: var(--fs-sm);
+  max-width: 42ch;
+}
+
+@media (max-width: 1024px) {
+  .jincl__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .jincl__grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,212 @@
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-menu);
+  background: var(--ink);
+  color: var(--on-dark);
+  overflow: hidden;
+}
+.menu__canvas {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-block: 0 var(--gutter);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.menu__bar {
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: none;
+}
+.menu__close {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8em;
+}
+.menu__close-label {
+  opacity: 0.62;
+  transition: opacity 0.3s ease;
+}
+.menu__close:hover .menu__close-label {
+  opacity: 1;
+}
+.menu__close-x {
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+.menu__close-x i {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.6s var(--ease-out);
+}
+.menu__close-x i:first-child {
+  transform: rotate(45deg);
+}
+.menu__close-x i:last-child {
+  transform: rotate(-45deg);
+}
+.menu__close:hover .menu__close-x i:first-child {
+  transform: rotate(135deg);
+}
+.menu__close:hover .menu__close-x i:last-child {
+  transform: rotate(45deg);
+}
+
+.menu__grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.42fr);
+  gap: 2rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.menu__nav ul {
+  display: flex;
+  flex-direction: column;
+}
+.menu__nav li > div {
+  overflow: hidden;
+}
+.menu__link {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(0.75rem, 2vw, 1.75rem);
+  font-size: clamp(2.6rem, 8.4vw, 7.5rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  padding-block: 0.06em;
+  color: var(--on-dark);
+  transition: color 0.45s var(--ease-out);
+}
+.menu__link-index {
+  font-size: var(--fs-micro);
+  color: var(--on-dark-mute);
+  flex: none;
+  transform: translateY(-0.9em);
+  transition: color 0.4s ease;
+}
+.menu__link-text {
+  position: relative;
+  display: inline-block;
+}
+.menu__link-text::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0.16em;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.65s var(--ease-out);
+}
+.menu__link:hover {
+  color: var(--ember-soft);
+}
+.menu__link:hover .menu__link-text::after {
+  transform: scaleX(1);
+}
+
+.menu__side {
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+  justify-self: end;
+  align-self: end;
+  padding-bottom: 1rem;
+  text-align: right;
+}
+.menu__block h2 {
+  margin-bottom: 1rem;
+  justify-content: flex-end;
+}
+.menu__block .eyebrow::before {
+  display: none;
+}
+.menu__studios,
+.menu__socials {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  font-size: var(--fs-sm);
+}
+.menu__studio {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: flex-end;
+  align-items: baseline;
+}
+.menu__studio .mono {
+  color: var(--on-dark-mute);
+  font-variant-numeric: tabular-nums;
+}
+.menu__socials a {
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+.menu__socials a:hover {
+  opacity: 1;
+}
+
+.menu__previews {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.menu__preview {
+  position: absolute;
+  top: 50%;
+  right: 26%;
+  width: min(30vw, 380px);
+  aspect-ratio: 4 / 5;
+  transform: translate(0, -50%) scale(0.94);
+  opacity: 0;
+  filter: grayscale(0.35);
+  transition: opacity 0.65s var(--ease-out), transform 0.85s var(--ease-out);
+  overflow: hidden;
+}
+.menu__preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.menu__preview.is-active {
+  opacity: 0.32;
+  transform: translate(0, -50%) scale(1);
+}
+
+@media (max-width: 900px) {
+  .menu__grid {
+    grid-template-columns: 1fr;
+    align-items: start;
+    align-content: space-between;
+    padding-block: 2rem;
+  }
+  .menu__side {
+    justify-self: start;
+    text-align: left;
+  }
+  .menu__block h2 {
+    justify-content: flex-start;
+  }
+  .menu__studio {
+    justify-content: flex-start;
+  }
+  .menu__previews {
+    display: none;
+  }
+}

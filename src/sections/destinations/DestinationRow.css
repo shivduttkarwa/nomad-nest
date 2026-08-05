@@ -1,0 +1,120 @@
+.dtable {
+  border-top: 1px solid var(--rule);
+}
+.dtable__head,
+.drow__link {
+  display: grid;
+  grid-template-columns: 3rem 4.5rem minmax(0, 1.3fr) minmax(0, 0.9fr) minmax(0, 0.9fr) minmax(0, 1fr) 5rem 6rem 2rem;
+  align-items: center;
+  gap: clamp(0.5rem, 1.5vw, 1.5rem);
+}
+.dtable__head {
+  padding-block: 0.9rem;
+  color: var(--text-faint);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.drow {
+  border-bottom: 1px solid var(--rule);
+}
+.drow__link {
+  padding-block: 0.85rem;
+  transition: color 0.4s ease;
+}
+.drow__link:hover {
+  color: var(--ember);
+}
+.drow__num {
+  color: var(--text-faint);
+}
+.drow__thumb {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--paper-3);
+}
+.drow__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease-out);
+}
+.drow__link:hover .drow__thumb img {
+  transform: scale(1.1);
+}
+.drow__country {
+  font-size: var(--fs-sm);
+  color: var(--text-soft);
+}
+.drow__region,
+.drow__season,
+.drow__nights,
+.drow__price {
+  color: var(--text-mute);
+}
+.drow__price {
+  text-align: right;
+}
+.drow__arrow {
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transform: translate(-5px, 5px);
+  transition: opacity 0.35s ease, transform 0.45s var(--ease-out);
+}
+.drow__link:hover .drow__arrow {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 1200px) {
+  .dtable__head,
+  .drow__link {
+    grid-template-columns: 2.5rem 4rem minmax(0, 1.4fr) minmax(0, 1fr) 5rem 6rem 1.5rem;
+  }
+  .drow__region,
+  .drow__season,
+  .dtable__head span:nth-child(5),
+  .dtable__head span:nth-child(6) {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .dtable__head {
+    display: none;
+  }
+  .drow__link {
+    grid-template-columns: 2rem 3.5rem minmax(0, 1fr) auto;
+    grid-template-areas:
+      'num thumb name arrow'
+      'num thumb meta arrow';
+    row-gap: 0.25rem;
+    padding-block: 1rem;
+  }
+  .drow__num {
+    grid-area: num;
+  }
+  .drow__thumb {
+    grid-area: thumb;
+    aspect-ratio: 1;
+  }
+  .drow__name {
+    grid-area: name;
+  }
+  .drow__country {
+    grid-area: meta;
+  }
+  .drow__nights,
+  .drow__price {
+    display: none;
+  }
+  .drow__arrow {
+    grid-area: arrow;
+    opacity: 1;
+    transform: none;
+  }
+}

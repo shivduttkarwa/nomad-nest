@@ -1,0 +1,77 @@
+.quotes__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1.35rem;
+  border-bottom: 1px solid var(--rule);
+}
+.quotes__count {
+  color: var(--text-faint);
+}
+.quotes__stage {
+  min-height: clamp(20rem, 34vw, 30rem);
+  display: grid;
+  align-items: center;
+  padding-block: clamp(2.5rem, 6vw, 5rem);
+}
+.quotes__quote {
+  grid-area: 1 / 1;
+  cursor: grab;
+}
+.quotes__quote:active {
+  cursor: grabbing;
+}
+.quotes__quote p {
+  max-width: min(15em, 100%);
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+}
+.quotes__quote footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: clamp(1.75rem, 3.5vw, 2.75rem);
+}
+.quotes__quote cite {
+  font-style: normal;
+  font-size: var(--fs-body);
+}
+.quotes__quote footer .mono {
+  color: var(--text-faint);
+}
+.quotes__nav {
+  display: flex;
+  gap: 0.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+.quotes__nav button {
+  width: 54px;
+  height: 54px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--text-soft);
+  transition: background-color 0.45s var(--ease-out), color 0.35s ease, border-color 0.35s ease;
+}
+.quotes__nav button:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+@media (min-width: 901px) {
+  .quotes__quote {
+    margin-left: 16%;
+  }
+  .quotes__quote p {
+    text-indent: -0.42em;
+  }
+}
+
+@media (max-width: 600px) {
+  .quotes__quote p {
+    font-size: var(--fs-d4);
+  }
+}

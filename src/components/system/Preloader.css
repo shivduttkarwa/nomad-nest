@@ -1,0 +1,63 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-preloader);
+  background: var(--ink);
+  color: var(--on-dark);
+  display: grid;
+  place-items: end stretch;
+  padding: var(--gutter);
+}
+
+.preloader__inner {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+}
+
+.preloader__word {
+  overflow: hidden;
+  height: clamp(3rem, 8vw, 7rem);
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 1.5rem;
+}
+.preloader__word span {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 7.5vw, 6.5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.preloader__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  color: var(--on-dark-mute);
+  padding-bottom: 0.9rem;
+}
+.preloader__meta .mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.preloader__count {
+  font-family: var(--font-mono);
+  font-size: clamp(0.9rem, 2vw, 1.15rem);
+  color: var(--on-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.preloader__bar {
+  height: 1px;
+  background: var(--rule-dark);
+  overflow: hidden;
+}
+.preloader__bar i {
+  display: block;
+  height: 100%;
+  background: var(--paper);
+  transform-origin: 0 50%;
+}

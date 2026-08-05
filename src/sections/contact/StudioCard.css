@@ -1,0 +1,23 @@
+.studio {
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+.studio__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.studio__head .mono {
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+.studio__addr {
+  margin-top: 0.5rem;
+  white-space: pre-line;
+  font-size: var(--fs-sm);
+  color: var(--text-soft);
+}
+.studio .muted {
+  margin-top: 0.4rem;
+}

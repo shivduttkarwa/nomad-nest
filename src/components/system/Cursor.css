@@ -1,0 +1,84 @@
+.has-custom-cursor,
+.has-custom-cursor a,
+.has-custom-cursor button,
+.has-custom-cursor [role='button'],
+.has-custom-cursor label,
+.has-custom-cursor input,
+.has-custom-cursor select,
+.has-custom-cursor textarea {
+  cursor: none;
+}
+
+.cursor {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  mix-blend-mode: difference;
+}
+.cursor.is-visible {
+  opacity: 1;
+}
+
+.cursor__dot,
+.cursor__ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.cursor__dot {
+  width: 6px;
+  height: 6px;
+  background: var(--paper);
+  transition: width 0.3s var(--ease-out), height 0.3s var(--ease-out), opacity 0.3s;
+}
+.cursor__dot[data-mode='view'],
+.cursor__dot[data-mode='drag'] {
+  opacity: 0;
+}
+
+.cursor__ring {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(242, 239, 231, 0.7);
+  display: grid;
+  place-items: center;
+  transition:
+    width 0.42s var(--ease-out),
+    height 0.42s var(--ease-out),
+    background-color 0.42s var(--ease-out),
+    border-color 0.3s ease;
+}
+.cursor__ring[data-mode='link'] {
+  width: 54px;
+  height: 54px;
+  background: rgba(242, 239, 231, 0.14);
+}
+.cursor__ring[data-mode='view'],
+.cursor__ring[data-mode='drag'] {
+  width: 96px;
+  height: 96px;
+  background: var(--paper);
+  border-color: transparent;
+}
+
+.cursor__label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.25s ease 0.1s, transform 0.35s var(--ease-out) 0.08s;
+}
+.cursor__ring[data-mode='view'] .cursor__label,
+.cursor__ring[data-mode='drag'] .cursor__label {
+  opacity: 1;
+  transform: scale(1);
+}
