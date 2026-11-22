@@ -148,7 +148,6 @@ export function Footer() {
             <Link to="/legal/terms">Terms</Link>
             <Link to="/legal/booking-conditions">Booking conditions</Link>
           </span>
-          <span className="mono">Designed in Fitzroy</span>
         </div>
       </div>
     </footer>
