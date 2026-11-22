@@ -20,3 +20,19 @@
 .counter {
   font-variant-numeric: tabular-nums;
 }
+
+.drift-scope {
+  view-timeline-name: --drift;
+}
+.drift {
+  animation: drift linear both;
+  animation-timeline: --drift;
+}
+@keyframes drift {
+  from {
+    translate: 0 var(--drift);
+  }
+  to {
+    translate: 0 calc(var(--drift) * -1);
+  }
+}

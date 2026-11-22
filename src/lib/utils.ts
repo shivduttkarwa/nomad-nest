@@ -2,6 +2,8 @@ export function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(' ')
 }
 
+export const SCROLL_DRIVEN = typeof CSS !== 'undefined' && CSS.supports('animation-timeline: view()')
+
 export function clamp(v: number, min: number, max: number) {
   return Math.min(Math.max(v, min), max)
 }

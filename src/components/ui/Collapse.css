@@ -1,3 +1,4 @@
 .collapse {
-  overflow: hidden;
+  display: flow-root;
+  overflow: clip;
 }

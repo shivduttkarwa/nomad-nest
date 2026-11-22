@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode }
 
 import { useFinePointer, useReducedMotion } from '@/hooks'
 import { SCRUB, SMOOTH_ABOVE, THROUGH, gsap } from '@/lib/gsap'
-import { cx, img } from '@/lib/utils'
+import { SCROLL_DRIVEN, cx, img } from '@/lib/utils'
 import './Figure.css'
 
 type Props = {
@@ -35,20 +35,21 @@ export function Figure({
   const fine = useFinePointer()
   const [loaded, setLoaded] = useState(false)
 
-  const drifts = depth > 0 && !reduced && fine
+  const drifts = depth > 0 && !reduced && (fine || SCROLL_DRIVEN)
+  const scrubs = drifts && fine
 
   useLayoutEffect(() => {
     const scope = ref.current
     const el = imgRef.current
     if (!scope || !el || reduced) return
-    if (!drifts && !scaleIn) return
+    if (!scrubs && !scaleIn) return
 
     const ctx = gsap.context(() => {
       const scrub = depth >= SMOOTH_ABOVE ? SCRUB : true
       const trigger = { trigger: scope, ...THROUGH, scrub, invalidateOnRefresh: true }
       const travel = () => scope.offsetHeight * depth
 
-      if (drifts) {
+      if (scrubs) {
         gsap.fromTo(
           el,
           { y: () => -travel() },
@@ -61,15 +62,25 @@ export function Figure({
     }, scope)
 
     return () => ctx.revert()
-  }, [drifts, depth, scaleIn, reduced])
+  }, [scrubs, depth, scaleIn, reduced])
 
   const style = {
     ...(ratio ? { aspectRatio: ratio } : null),
-    ...(drifts ? ({ '--fig-overscan': `${depth * 100}%` } as CSSProperties) : null),
+    ...(drifts ? ({ '--fig-depth': String(depth) } as CSSProperties) : null),
   } as CSSProperties
 
   return (
-    <div ref={ref} className={cx('figure', drifts && 'figure--drift', loaded && 'is-loaded', className)} style={style}>
+    <div
+      ref={ref}
+      className={cx(
+        'figure',
+        drifts && 'figure--drift',
+        drifts && !fine && 'figure--scroll',
+        loaded && 'is-loaded',
+        className,
+      )}
+      style={style}
+    >
       <img
         ref={imgRef}
         src={img(id, width)}

@@ -42,7 +42,7 @@
   margin-top: clamp(3rem, 7vw, 6.5rem);
   height: clamp(46vh, 62vw, 82vh);
   position: relative;
-  overflow: hidden;
+  overflow: clip;
 }
 .phero__media .figure {
   height: 100%;

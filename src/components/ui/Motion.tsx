@@ -1,8 +1,8 @@
-import { Fragment, useLayoutEffect, useRef, useState, type ElementType, type ReactNode } from 'react'
+import { Fragment, useLayoutEffect, useRef, useState, type ElementType, type ReactNode, type RefObject } from 'react'
 
 import { useFinePointer, useReducedMotion } from '@/hooks'
 import { EASE_OUT, SCRUB, SCRUB_TIGHT, ScrollTrigger, SplitText, THROUGH, gsap, startAt } from '@/lib/gsap'
-import { cx } from '@/lib/utils'
+import { SCROLL_DRIVEN, cx } from '@/lib/utils'
 import './Motion.css'
 
 export function Reveal({
@@ -202,16 +202,30 @@ export function Counter({ to, suffix = '', duration = 1.9 }: { to: number; suffi
   )
 }
 
-export function useParallax(distance = 60) {
-  const ref = useRef<HTMLDivElement>(null)
-  const targetRef = useRef<HTMLDivElement>(null)
+export function useDrift(
+  scopeRef: RefObject<HTMLElement | null>,
+  targetRef: RefObject<HTMLElement | null>,
+  distance: number,
+) {
   const reduced = useReducedMotion()
   const fine = useFinePointer()
 
   useLayoutEffect(() => {
-    const scope = ref.current
+    const scope = scopeRef.current
     const target = targetRef.current
-    if (!scope || !target || reduced || !fine) return
+    if (!scope || !target || reduced || distance === 0) return
+
+    if (!fine) {
+      if (!SCROLL_DRIVEN) return
+      scope.classList.add('drift-scope')
+      target.classList.add('drift')
+      target.style.setProperty('--drift', `${distance}px`)
+      return () => {
+        scope.classList.remove('drift-scope')
+        target.classList.remove('drift')
+        target.style.removeProperty('--drift')
+      }
+    }
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -226,8 +240,13 @@ export function useParallax(distance = 60) {
     }, scope)
 
     return () => ctx.revert()
-  }, [distance, reduced, fine])
+  }, [scopeRef, targetRef, distance, reduced, fine])
+}
 
+export function useParallax(distance = 60) {
+  const ref = useRef<HTMLDivElement>(null)
+  const targetRef = useRef<HTMLDivElement>(null)
+  useDrift(ref, targetRef, distance)
   return { ref, targetRef }
 }
 

@@ -15,7 +15,7 @@
 }
 .jcard__media {
   position: relative;
-  overflow: hidden;
+  overflow: clip;
   margin-bottom: 1.5rem;
 }
 .jcard__media .figure img {

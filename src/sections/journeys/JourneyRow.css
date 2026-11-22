@@ -62,9 +62,6 @@
   transform: scaleY(0);
   opacity: 0;
 }
-.jrow__panel {
-  overflow: hidden;
-}
 .jrow__grid {
   display: grid;
   grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);

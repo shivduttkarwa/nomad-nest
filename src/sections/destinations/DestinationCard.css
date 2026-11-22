@@ -3,7 +3,7 @@
 }
 .dcard__media {
   position: relative;
-  overflow: hidden;
+  overflow: clip;
   margin-bottom: 1.35rem;
 }
 .dcard__media .figure img {

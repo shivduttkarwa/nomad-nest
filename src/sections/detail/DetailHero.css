@@ -55,7 +55,7 @@
   margin-top: clamp(2.5rem, 6vw, 5rem);
   height: clamp(44vh, 58vw, 78vh);
   position: relative;
-  overflow: hidden;
+  overflow: clip;
 }
 .dhero__media .figure {
   height: 100%;

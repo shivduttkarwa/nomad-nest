@@ -17,8 +17,23 @@
 
 /* Oversize the image inside its frame so the drift never exposes an edge. */
 .figure--drift img {
-  top: calc(var(--fig-overscan) * -1);
-  height: calc(100% + var(--fig-overscan) * 2);
+  top: calc(var(--fig-depth) * -100%);
+  height: calc(100% + var(--fig-depth) * 200%);
+}
+.figure--scroll {
+  view-timeline-name: --figure;
+}
+.figure--scroll img {
+  animation: figure-drift linear both;
+  animation-timeline: --figure;
+}
+@keyframes figure-drift {
+  from {
+    translate: 0 calc(var(--fig-depth) / (1 + 2 * var(--fig-depth)) * -100%);
+  }
+  to {
+    translate: 0 calc(var(--fig-depth) / (1 + 2 * var(--fig-depth)) * 100%);
+  }
 }
 .figure.is-loaded img {
   opacity: 1;

@@ -9,7 +9,7 @@
 }
 .lcard__media {
   position: relative;
-  overflow: hidden;
+  overflow: clip;
   margin-bottom: 1.35rem;
 }
 .lcard__media .figure img {
