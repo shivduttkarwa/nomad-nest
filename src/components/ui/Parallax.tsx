@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, type ElementType, type ReactNode } from 'react'
 
-import { useReducedMotion } from '@/hooks'
+import { useFinePointer, useReducedMotion } from '@/hooks'
 import { SCRUB, THROUGH, gsap } from '@/lib/gsap'
 import './Parallax.css'
 
@@ -15,10 +15,11 @@ type Props = {
 export function Parallax({ children, distance = 70, className, as: Tag = 'div' }: Props) {
   const ref = useRef<HTMLElement>(null)
   const reduced = useReducedMotion()
+  const fine = useFinePointer()
 
   useLayoutEffect(() => {
     const el = ref.current
-    if (!el || reduced || distance === 0) return
+    if (!el || reduced || !fine || distance === 0) return
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -33,7 +34,7 @@ export function Parallax({ children, distance = 70, className, as: Tag = 'div' }
     }, el)
 
     return () => ctx.revert()
-  }, [distance, reduced])
+  }, [distance, reduced, fine])
 
   return (
     <Tag ref={ref} className={className} data-parallax="">

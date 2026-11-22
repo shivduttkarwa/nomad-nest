@@ -22,6 +22,7 @@ export function useMediaQuery(query: string) {
 
 export const useIsDesktop = () => useMediaQuery('(min-width: 1025px)')
 export const useReducedMotion = () => useMediaQuery('(prefers-reduced-motion: reduce)')
+export const useFinePointer = () => useMediaQuery('(hover: hover) and (pointer: fine)')
 
 /* ------------------------------------------------------------------
    Magnetic pointer attraction — the signature feel of the CTAs.

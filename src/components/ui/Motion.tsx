@@ -1,6 +1,6 @@
 import { Fragment, useLayoutEffect, useRef, useState, type ElementType, type ReactNode } from 'react'
 
-import { useReducedMotion } from '@/hooks'
+import { useFinePointer, useReducedMotion } from '@/hooks'
 import { EASE_OUT, SCRUB, SCRUB_TIGHT, ScrollTrigger, SplitText, THROUGH, gsap, startAt } from '@/lib/gsap'
 import { cx } from '@/lib/utils'
 import './Motion.css'
@@ -206,11 +206,12 @@ export function useParallax(distance = 60) {
   const ref = useRef<HTMLDivElement>(null)
   const targetRef = useRef<HTMLDivElement>(null)
   const reduced = useReducedMotion()
+  const fine = useFinePointer()
 
   useLayoutEffect(() => {
     const scope = ref.current
     const target = targetRef.current
-    if (!scope || !target || reduced) return
+    if (!scope || !target || reduced || !fine) return
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -225,7 +226,7 @@ export function useParallax(distance = 60) {
     }, scope)
 
     return () => ctx.revert()
-  }, [distance, reduced])
+  }, [distance, reduced, fine])
 
   return { ref, targetRef }
 }

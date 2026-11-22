@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 
-import { useReducedMotion } from '@/hooks'
+import { useFinePointer, useReducedMotion } from '@/hooks'
 import { SCRUB, SMOOTH_ABOVE, THROUGH, gsap } from '@/lib/gsap'
 import { cx, img } from '@/lib/utils'
 import './Figure.css'
@@ -32,9 +32,10 @@ export function Figure({
   const ref = useRef<HTMLDivElement>(null)
   const imgRef = useRef<HTMLImageElement>(null)
   const reduced = useReducedMotion()
+  const fine = useFinePointer()
   const [loaded, setLoaded] = useState(false)
 
-  const drifts = depth > 0 && !reduced
+  const drifts = depth > 0 && !reduced && fine
 
   useLayoutEffect(() => {
     const scope = ref.current
